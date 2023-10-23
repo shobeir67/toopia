@@ -22,7 +22,9 @@ import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,12 +42,12 @@ import com.shobeir.toopia.R
 import com.shobeir.toopia.persiandate.PersianDate
 import com.shobeir.toopia.persiandate.PersianDateFormat
 import com.shobeir.toopia.ui.theme.shabnam
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen() {
     Home()
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,6 +59,7 @@ fun Home() {
     var textYellowTow by remember { mutableStateOf("0") }
 
     var textRedOne by remember { mutableStateOf("0") }
+
     var textRedTow by remember { mutableStateOf("0") }
 
     var textMalekiyatOne by remember { mutableStateOf("0") }
@@ -74,9 +77,42 @@ fun Home() {
     var textShooteOne by remember { mutableStateOf("0") }
     var textShooteTow by remember { mutableStateOf("0") }
 
+
+    var goleOne by remember { mutableStateOf("") }
+    var goleTow by remember { mutableStateOf("") }
+
+    var yellowOne by remember { mutableStateOf("") }
+    var yellowTow by remember { mutableStateOf("") }
+
+    var redOne by remember { mutableStateOf("") }
+    var redTow by remember { mutableStateOf("") }
+
+    var malekiyatOne by remember { mutableStateOf("") }
+    var malekiyatTow by remember { mutableStateOf("") }
+
+    var cornerOne by remember { mutableStateOf("") }
+    var cornerTow by remember { mutableStateOf("") }
+
+    var khataOne by remember { mutableStateOf("") }
+    var khataTow by remember { mutableStateOf("") }
+
+    var afsaideOne by remember { mutableStateOf("") }
+    var afsaideTow by remember { mutableStateOf("") }
+
+    var shooteOne by remember { mutableStateOf("") }
+    var shooteTow by remember { mutableStateOf("") }
+
     val pdate= PersianDate()
     val pFormatter = PersianDateFormat().format(pdate)
-
+    var timeLeft by remember {
+        mutableIntStateOf(120)
+    }
+    LaunchedEffect(key1 = timeLeft){
+        while (timeLeft >0){
+            delay(1000L)
+            timeLeft--
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -151,7 +187,9 @@ fun Home() {
             ) {
                 OutlinedTextField(
                     value = textGoleOne,
-                    onValueChange = { textGoleOne = it }, modifier = Modifier.size(50.dp).padding(0.dp),
+                    onValueChange = { textGoleOne = it }, modifier = Modifier
+                        .size(50.dp)
+                        .padding(0.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -233,7 +271,7 @@ fun Home() {
                 )
                 OutlinedTextField(
                     value = textRedTow,
-                    onValueChange = { textGoleTow = it },
+                    onValueChange = { textRedTow = it },
                     modifier = Modifier.size(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
