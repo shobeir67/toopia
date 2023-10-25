@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.shobeir.toopia.SharedViewModel
+import com.shobeir.toopia.ui.screen.forecast.ForecastScreen
 import com.shobeir.toopia.ui.screen.home.HomeScreen
 
 @Composable
@@ -20,6 +21,10 @@ fun SetupNavGraph(
     ) {
         composable(route = Screen.Home.route) {
             HomeScreen(navController = navController, sharedViewModel = sharedViewModel)
+        }
+
+        composable(route=Screen.Forecast.route){
+            ForecastScreen()
         }
 
     }

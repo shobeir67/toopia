@@ -17,9 +17,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -188,7 +191,8 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textGoleOne,
                     onValueChange = { textGoleOne = it }, modifier = Modifier
-                        .size(50.dp)
+                        .width(60.dp)
+                        .height(50.dp)
                         .padding(0.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
@@ -218,7 +222,9 @@ fun Forecast() {
                 )
                 OutlinedTextField(
                     value = textGoleTow,
-                    onValueChange = { textGoleTow = it }, modifier = Modifier.size(50.dp),
+                    onValueChange = { textGoleTow = it }, modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -235,7 +241,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textYellowOne,
                     onValueChange = { textYellowOne = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -266,7 +274,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textYellowTow,
                     onValueChange = { textYellowTow = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -283,7 +293,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textRedOne,
                     onValueChange = { textRedOne = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -314,7 +326,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textRedTow,
                     onValueChange = { textRedTow = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -331,7 +345,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textMalekiyatOne,
                     onValueChange = { textMalekiyatOne = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -346,7 +362,7 @@ fun Forecast() {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "مالکیت",
+                    text = "درصدمالکیت",
                     fontFamily = shabnam,
                     fontSize = 20.sp,
                     modifier = Modifier.width(150.dp),
@@ -362,7 +378,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textMalekiyatTow,
                     onValueChange = { textMalekiyatTow = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -379,7 +397,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textCornerOne,
                     onValueChange = { textCornerOne = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -410,7 +430,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textCornerTow,
                     onValueChange = { textCornerTow = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -427,7 +449,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textKhataOne,
                     onValueChange = { textKhataOne = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -458,7 +482,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textKhataTow,
                     onValueChange = { textKhataTow = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -475,7 +501,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textAfsaideOne,
                     onValueChange = { textAfsaideOne = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -506,7 +534,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textAfsaideTow,
                     onValueChange = { textAfsaideTow = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -523,7 +553,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textShooteOne,
                     onValueChange = { textShooteOne = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -554,7 +586,9 @@ fun Forecast() {
                 OutlinedTextField(
                     value = textShooteTow,
                     onValueChange = { textShooteTow = it },
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     textStyle = LocalTextStyle.current.copy(
                         fontSize = 16.sp,
@@ -566,11 +600,15 @@ fun Forecast() {
             Button(
                 onClick = { /*TODO*/ }, modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp)
+                    .padding(10.dp),
+                 colors = ButtonDefaults.buttonColors(
+                    backgroundColor = md_theme_light_onPrimaryContainer
+                )
             ) {
                 Text(
                     text = "ثبت پیش بینی", fontFamily = shabnam,
                     fontSize = 18.sp,
+                    color = Color.White
                 )
             }
         }
