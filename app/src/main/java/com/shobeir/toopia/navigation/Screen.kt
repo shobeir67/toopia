@@ -4,7 +4,7 @@ sealed class Screen(val route: String) {
     object Home : Screen("home_screen")
     object Forecast: Screen("forecast_screen")
     object Profile: Screen(route = "profile_screen")
-    object Setting: Screen(route = "setting_screen")
-    object ControlAudio: Screen(route = "control_screen")
+    object Login: Screen(route = "login_screen")
+    object Code: Screen(route = "code_screen")
 
 }
