@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.ui.screen.forecast.ForecastScreen
 import com.shobeir.toopia.ui.screen.home.HomeScreen
+import com.shobeir.toopia.ui.screen.login.LoginScreen
+import com.shobeir.toopia.ui.screen.login.RegisterScreen
 
 @Composable
 fun SetupNavGraph(
@@ -25,6 +27,14 @@ fun SetupNavGraph(
 
         composable(route=Screen.Forecast.route){
             ForecastScreen()
+        }
+
+        composable(route= Screen.Login.route){
+            LoginScreen(sharedViewModel = sharedViewModel)
+        }
+
+        composable(route=Screen.Code.route){
+            RegisterScreen(sharedViewModel = sharedViewModel)
         }
 
     }

@@ -1,4 +1,4 @@
-package ir.truelearn.digikala.ui.screens.profile
+package com.shobeir.toopia.ui.screen.login
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import ir.truelearn.digikala.ui.theme.*
+import com.shobeir.toopia.ui.theme.CursorColor
+import com.shobeir.toopia.ui.theme.DarkCyan
+import com.shobeir.toopia.ui.theme.roundedShape
+import com.shobeir.toopia.ui.theme.searchBarBg
+import com.shobeir.toopia.ui.theme.spacing
 
 @Composable
 fun MyEditText(

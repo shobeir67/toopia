@@ -17,11 +17,6 @@ import com.shobeir.toopia.data.datastore.StoreViewModel
 import com.shobeir.toopia.ui.theme.md_theme_light_outline
 import com.shobeir.toopia.ui.theme.spacing
 import com.shobeir.toopia.viewmodel.LoginViewModel
-import ir.truelearn.digikala.ui.screens.profile.LoadingButton
-import ir.truelearn.digikala.ui.screens.profile.MyButton
-import ir.truelearn.digikala.ui.screens.profile.MyEditText
-import com.shobeir.toopia.utils.InputValidation.isValidPassword
-import kotlin.random.Random
 
 @Composable
 fun RegisterScreen(

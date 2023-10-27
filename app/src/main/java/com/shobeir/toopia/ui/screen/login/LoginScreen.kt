@@ -21,8 +21,6 @@ import com.shobeir.toopia.ui.theme.md_theme_light_outline
 import com.shobeir.toopia.ui.theme.spacing
 import com.shobeir.toopia.utils.InputValidation.isValidPhoneNumber
 import com.shobeir.toopia.viewmodel.LoginViewModel
-import ir.truelearn.digikala.ui.screens.profile.MyButton
-import ir.truelearn.digikala.ui.screens.profile.MyEditText
 import kotlin.random.Random
 
 

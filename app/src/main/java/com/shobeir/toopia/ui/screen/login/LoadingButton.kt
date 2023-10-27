@@ -1,4 +1,4 @@
-package ir.truelearn.digikala.ui.screens.profile
+package com.shobeir.toopia.ui.screen.login
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,10 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ir.truelearn.digikala.ui.components.Loading3Dots
-import ir.truelearn.digikala.ui.theme.digikalaRed
-import ir.truelearn.digikala.ui.theme.roundedShape
-import ir.truelearn.digikala.ui.theme.spacing
+import com.shobeir.toopia.ui.screen.components.Loading3Dots
+import com.shobeir.toopia.ui.theme.digikalaRed
+import com.shobeir.toopia.ui.theme.spacing
 
 @Composable
 fun LoadingButton() {
@@ -29,7 +28,7 @@ fun LoadingButton() {
                 end = MaterialTheme.spacing.semiLarge,
                 bottom = MaterialTheme.spacing.medium
             ),
-        shape = MaterialTheme.roundedShape.small
+        shape = MaterialTheme.shapes.medium
     ) {
 
         Loading3Dots(isDark = false)
