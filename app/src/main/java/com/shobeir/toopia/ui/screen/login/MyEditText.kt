@@ -13,10 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.shobeir.toopia.ui.theme.CursorColor
 import com.shobeir.toopia.ui.theme.DarkCyan
 import com.shobeir.toopia.ui.theme.roundedShape
 import com.shobeir.toopia.ui.theme.searchBarBg
+import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
 
 @Composable
@@ -31,7 +33,7 @@ fun MyEditText(
         onValueChange = {onValueChange(it)},
         modifier = Modifier
             .fillMaxWidth()
-            .height(92.dp)
+            .height(95.dp)
             .padding(
                 start = MaterialTheme.spacing.semiLarge,
                 end = MaterialTheme.spacing.semiLarge,
@@ -52,9 +54,10 @@ fun MyEditText(
             ){
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.h6,
+                    fontFamily = shabnam,
                     color = Color.Gray,
                     fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp
                 )
             }
         }

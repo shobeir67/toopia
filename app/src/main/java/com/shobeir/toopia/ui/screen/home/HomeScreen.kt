@@ -63,14 +63,14 @@ fun HomeScreen(
         }
     }else {
         if (phoneUser != "null"){
-            Home(navController = navController, sharedViewModel = sharedViewModel)
+            Home(navController = navController, sharedViewModel = sharedViewModel, storeViewModel = storeViewModel)
         }else{
             when (loginViewModel.screenState) {
                 HomeScreenState.LOGIN_STATE -> {
                     LoginScreen(sharedViewModel = sharedViewModel)
                 }
                 HomeScreenState.HOME_STATE -> {
-                    Home(navController = navController, sharedViewModel = sharedViewModel)
+                    Home(navController = navController, sharedViewModel = sharedViewModel,storeViewModel = storeViewModel)
                 }
                 HomeScreenState.REGISTER_STATE -> {
                     RegisterScreen(sharedViewModel = sharedViewModel)
@@ -83,7 +83,10 @@ fun HomeScreen(
 
 
 @Composable
-fun Home(navController: NavHostController, sharedViewModel: SharedViewModel) {
+fun Home(navController: NavHostController, sharedViewModel: SharedViewModel,
+         storeViewModel: StoreViewModel)
+{
+    val scope = rememberCoroutineScope()
     Column(
         Modifier
             .fillMaxSize()
@@ -91,6 +94,14 @@ fun Home(navController: NavHostController, sharedViewModel: SharedViewModel) {
         ) {
         Button(onClick = { navController.navigate(Screen.Forecast.route) }) {
             Text(text = "پیش بینی کنید")
+        }
+
+        Button(onClick = {
+            scope.launch {
+                storeViewModel.clearDataStore()
+            }
+        }) {
+            Text(text = "exit")
         }
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shobeir.toopia.data.model.Data
+import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.remote.NetworkResult
 import com.shobeir.toopia.repository.HomeRepository
 import com.shobeir.toopia.ui.screen.login.HomeScreenState
@@ -17,11 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class PishViewModel @Inject constructor(private val repository: HomeRepository) :
     ViewModel() {
-    var loadingState by mutableStateOf(false)
 
     val loginResponse = MutableStateFlow<NetworkResult<Data>>(NetworkResult.Loading())
+    val pishResponse = MutableStateFlow<NetworkResult<ModelPish>>(NetworkResult.Loading())
 
-    fun setPish(
+   suspend fun setPish(
         phone: String,
         goleOne: String,
         goleTow: String,
@@ -41,7 +42,6 @@ class PishViewModel @Inject constructor(private val repository: HomeRepository) 
         shooteTow: String
     ) {
         viewModelScope.launch {
-            loadingState = true
             loginResponse.emit(
                 repository.setPish(
                     phone,
@@ -66,5 +66,10 @@ class PishViewModel @Inject constructor(private val repository: HomeRepository) 
         }
     }
 
+     fun getPish(phone: String){
+         viewModelScope.launch {
+            pishResponse.emit(repository.getPishUser(phone))
+        }
+    }
 
 }

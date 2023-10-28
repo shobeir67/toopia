@@ -1,6 +1,7 @@
 package com.shobeir.toopia.data.remote
 
 import com.shobeir.toopia.data.model.Data
+import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.model.ResponseResult
 import com.shobeir.toopia.data.model.Slider
 import retrofit2.Response
@@ -13,6 +14,14 @@ interface HomeApiInterface {
     @FormUrlEncoded
     @POST("register.php")
     suspend fun register(@Field("phone") phone:String, @Field("code") code:String):Response<ResponseResult<Data>>
+
+    @FormUrlEncoded
+    @POST("add-user.php")
+    suspend fun addUser(@Field("phone") phone:String):Response<ResponseResult<Data>>
+
+    @FormUrlEncoded
+    @POST("get-pish-user.php")
+    suspend fun getPishUser(@Field("phone") phone:String):Response<ResponseResult<ModelPish>>
 
     @FormUrlEncoded
     @POST("set-pish-user.php")
@@ -35,4 +44,6 @@ interface HomeApiInterface {
         @Field("shooteOne") shooteOne:String,
         @Field("shooteTow") shooteTow:String
     ):Response<ResponseResult<Data>>
+
+
 }

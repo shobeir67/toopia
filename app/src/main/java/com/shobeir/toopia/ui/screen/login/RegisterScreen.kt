@@ -58,7 +58,8 @@ fun RegisterScreen(
       Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
       MyButton(text = stringResource(id = R.string.digikala_login)) {
                 if (textCode == code) {
-                        storeViewModel.savePhone(phone=phone!!)
+                        loginViewModel.addUser(phone!!)
+                        storeViewModel.savePhone(phone=phone)
                         loginViewModel.screenState = HomeScreenState.HOME_STATE
 
                 } else {

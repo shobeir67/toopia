@@ -24,14 +24,23 @@ class LoginViewModel @Inject constructor(private val repository:HomeRepository) 
     var codeState by mutableStateOf("")
     var loadingState by mutableStateOf(false)
 
-    val loginResponse = MutableStateFlow<NetworkResult<Data>>(NetworkResult.Loading())
+    val sendCodeResponse = MutableStateFlow<NetworkResult<Data>>(NetworkResult.Loading())
+    val addUserResponse = MutableStateFlow<NetworkResult<Data>>(NetworkResult.Loading())
 
     fun sendSms() {
         viewModelScope.launch {
             loadingState = true
-            loginResponse.emit(repository.sendSms(inputPhoneState,codeState))
+            sendCodeResponse.emit(repository.sendSms(inputPhoneState,codeState))
         }
     }
+
+    fun addUser(phone:String){
+        viewModelScope.launch {
+            loadingState = true
+            addUserResponse.emit(repository.addUser(phone))
+        }
+    }
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.shobeir.toopia.repository
 
 import com.shobeir.toopia.data.model.Data
+import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.remote.BaseApiResponse
 import com.shobeir.toopia.data.remote.HomeApiInterface
 import com.shobeir.toopia.data.remote.NetworkResult
@@ -11,6 +12,16 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
     suspend fun sendSms(phone: String, code: String): NetworkResult<Data> =
         safeApiCall {
             api.register(phone = phone, code = code)
+        }
+
+    suspend fun addUser(phone: String,): NetworkResult<Data> =
+        safeApiCall {
+            api.addUser(phone = phone)
+        }
+
+    suspend fun getPishUser(phone: String,): NetworkResult<ModelPish> =
+        safeApiCall {
+            api.getPishUser(phone = phone)
         }
 
 
