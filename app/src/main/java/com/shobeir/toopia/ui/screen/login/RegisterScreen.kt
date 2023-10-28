@@ -10,11 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.shobeir.toopia.R
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.datastore.StoreViewModel
 import com.shobeir.toopia.ui.theme.md_theme_light_outline
+import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
 import com.shobeir.toopia.viewmodel.LoginViewModel
 
@@ -24,10 +26,12 @@ fun RegisterScreen(
     sharedViewModel: SharedViewModel,
     storeViewModel: StoreViewModel = hiltViewModel()
 ) {
-
     val context = LocalContext.current
     val code = sharedViewModel.user?.code
     val phone = sharedViewModel.user?.phone
+    var textCode by remember {
+        mutableStateOf("")
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -38,27 +42,24 @@ fun RegisterScreen(
             modifier = Modifier.padding(
                 horizontal = MaterialTheme.spacing.semiLarge
             ),
-            style = MaterialTheme.typography.h6,
+            fontFamily = shabnam,
+            fontSize = 20.sp,
             color = md_theme_light_outline,
             fontWeight = FontWeight.Bold
         )
 
         MyEditText(
-            value = loginViewModel.inputCodeState,
-            placeholder = stringResource(id = R.string.phone_and_email),
-            onValueChange = {loginViewModel.inputCodeState = it},
+            value = textCode,
+            placeholder = stringResource(id = R.string.code),
+            onValueChange = {textCode = it},
         )
 
 
-        Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
-
-        if (loginViewModel.loadingState) {
-            LoadingButton()
-        } else {
-            MyButton(text = stringResource(id = R.string.digikala_login)) {
-                if (loginViewModel.inputCodeState == code) {
+      Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+      MyButton(text = stringResource(id = R.string.digikala_login)) {
+                if (textCode == code) {
                         storeViewModel.savePhone(phone=phone!!)
-                        loginViewModel.screenState = ProfileScreenState.HOME_STATE
+                        loginViewModel.screenState = HomeScreenState.HOME_STATE
 
                 } else {
                     Toast.makeText(
@@ -67,9 +68,7 @@ fun RegisterScreen(
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            }
-        }
-
+       }
 
     }
 

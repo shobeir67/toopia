@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.shobeir.toopia.ui.theme.digikalaRed
 import com.shobeir.toopia.ui.theme.roundedShape
+import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
 
 @Composable
@@ -36,7 +38,8 @@ fun MyButton(
         Text(
             text = text,
             color = Color.White,
-            style = MaterialTheme.typography.h5
+            fontFamily = shabnam,
+            fontSize = 16.sp
         )
 
 

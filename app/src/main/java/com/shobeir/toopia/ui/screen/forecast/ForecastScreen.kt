@@ -30,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,14 +42,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.shobeir.toopia.R
+import com.shobeir.toopia.data.datastore.PreferenceHelper
+import com.shobeir.toopia.data.datastore.StoreViewModel
 import com.shobeir.toopia.persiandate.PersianDate
 import com.shobeir.toopia.persiandate.PersianDateFormat
 import com.shobeir.toopia.ui.theme.md_theme_light_onPrimary
 import com.shobeir.toopia.ui.theme.md_theme_light_onPrimaryContainer
 import com.shobeir.toopia.ui.theme.shabnam
+import com.shobeir.toopia.viewmodel.PishViewModel
 import kotlinx.coroutines.delay
-
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
@@ -56,10 +61,19 @@ fun ForecastScreen() {
     Forecast()
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Forecast() {
+fun Forecast(
+    viewModel: PishViewModel = hiltViewModel(),
+    storeViewModel: StoreViewModel = hiltViewModel()
+) {
+
+    var phoneUser by rememberSaveable { mutableStateOf("") }
+    LaunchedEffect(key1 = Unit) {
+        storeViewModel.readString(PreferenceHelper.MOBILE_NAME).collectLatest {
+            phoneUser = it
+        }
+    }
     var textGoleOne by remember { mutableStateOf("0") }
     var textGoleTow by remember { mutableStateOf("0") }
 
@@ -110,13 +124,13 @@ fun Forecast() {
     val shooteOne by remember { mutableStateOf("") }
     val shooteTow by remember { mutableStateOf("") }
 
-    val pdate= PersianDate()
+    val pdate = PersianDate()
     val pFormatter = PersianDateFormat().format(pdate)
     var timeLeft by remember {
         mutableIntStateOf(120)
     }
-    LaunchedEffect(key1 = timeLeft){
-        while (timeLeft >0){
+    LaunchedEffect(key1 = timeLeft) {
+        while (timeLeft > 0) {
             delay(1000L)
             timeLeft--
         }
@@ -161,7 +175,10 @@ fun Forecast() {
                         )
 
                         Text(
-                            text = "جبل الطارق", color = Color.White, fontFamily = shabnam, fontSize = 18.sp
+                            text = "جبل الطارق",
+                            color = Color.White,
+                            fontFamily = shabnam,
+                            fontSize = 18.sp
                         )
                     }
 
@@ -172,7 +189,10 @@ fun Forecast() {
                             modifier = Modifier.size(60.dp)
                         )
                         Text(
-                            text = "ایرلند", color = Color.White, fontFamily = shabnam, fontSize = 18.sp
+                            text = "ایرلند",
+                            color = Color.White,
+                            fontFamily = shabnam,
+                            fontSize = 18.sp
 
                         )
                     }
@@ -190,7 +210,8 @@ fun Forecast() {
             ) {
                 OutlinedTextField(
                     value = textGoleOne,
-                    onValueChange = { textGoleOne = it }, modifier = Modifier
+                    onValueChange = { textGoleOne = it },
+                    modifier = Modifier
                         .width(60.dp)
                         .height(50.dp)
                         .padding(0.dp),
@@ -201,7 +222,7 @@ fun Forecast() {
                     ),
                 )
                 Text(
-                    text =goleOne,
+                    text = goleOne,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -214,7 +235,7 @@ fun Forecast() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text =goleTow,
+                    text = goleTow,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -222,7 +243,8 @@ fun Forecast() {
                 )
                 OutlinedTextField(
                     value = textGoleTow,
-                    onValueChange = { textGoleTow = it }, modifier = Modifier
+                    onValueChange = { textGoleTow = it },
+                    modifier = Modifier
                         .width(60.dp)
                         .height(50.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -251,7 +273,7 @@ fun Forecast() {
                     ),
                 )
                 Text(
-                    text =yellowOne,
+                    text = yellowOne,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -265,7 +287,7 @@ fun Forecast() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text =yellowTow,
+                    text = yellowTow,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -303,7 +325,7 @@ fun Forecast() {
                     ),
                 )
                 Text(
-                    text =redOne,
+                    text = redOne,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -317,7 +339,7 @@ fun Forecast() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text =redTow,
+                    text = redTow,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -355,7 +377,7 @@ fun Forecast() {
                     ),
                 )
                 Text(
-                    text =malekiyatOne,
+                    text = malekiyatOne,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -369,7 +391,7 @@ fun Forecast() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text =malekiyatTow,
+                    text = malekiyatTow,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -407,7 +429,7 @@ fun Forecast() {
                     ),
                 )
                 Text(
-                    text =cornerOne,
+                    text = cornerOne,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -421,7 +443,7 @@ fun Forecast() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text =cornerTow,
+                    text = cornerTow,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -459,7 +481,7 @@ fun Forecast() {
                     ),
                 )
                 Text(
-                    text =khataOne,
+                    text = khataOne,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -473,7 +495,7 @@ fun Forecast() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text =khataTow,
+                    text = khataTow,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -511,7 +533,7 @@ fun Forecast() {
                     ),
                 )
                 Text(
-                    text =afsaideOne,
+                    text = afsaideOne,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -525,7 +547,7 @@ fun Forecast() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text =afsaideTow,
+                    text = afsaideTow,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -563,7 +585,7 @@ fun Forecast() {
                     ),
                 )
                 Text(
-                    text =shooteOne,
+                    text = shooteOne,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -577,7 +599,7 @@ fun Forecast() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text =shooteTow,
+                    text = shooteTow,
                     fontFamily = shabnam, fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     color = md_theme_light_onPrimaryContainer,
@@ -598,10 +620,30 @@ fun Forecast() {
             }
             Spacer(modifier = Modifier.height(5.dp))
             Button(
-                onClick = { /*TODO*/ }, modifier = Modifier
+                onClick = {
+                    viewModel.setPish(
+                        phoneUser,
+                        textGoleOne,
+                        textGoleTow,
+                        textYellowOne,
+                        textYellowTow,
+                        textRedOne,
+                        textRedTow,
+                        textMalekiyatOne,
+                        textMalekiyatTow,
+                        textCornerOne,
+                        textCornerTow,
+                        textKhataOne,
+                        textKhataTow,
+                        textAfsaideOne,
+                        textAfsaideTow,
+                        textShooteOne,
+                        textShooteTow,
+                    )
+                }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp),
-                 colors = ButtonDefaults.buttonColors(
+                colors = ButtonDefaults.buttonColors(
                     backgroundColor = md_theme_light_onPrimaryContainer
                 )
             ) {

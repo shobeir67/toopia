@@ -3,6 +3,9 @@ package com.shobeir.toopia
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.shobeir.toopia.navigation.SetupNavGraph
@@ -18,7 +21,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             navController = rememberNavController()
             ToopiaTheme {
-                SetupNavGraph(navController = navController)
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+                    SetupNavGraph(navController = navController)
+                }
             }
         }
     }

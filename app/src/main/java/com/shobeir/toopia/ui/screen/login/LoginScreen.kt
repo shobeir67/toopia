@@ -13,11 +13,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.shobeir.toopia.R
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.model.UserRegister
 import com.shobeir.toopia.ui.theme.md_theme_light_outline
+import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
 import com.shobeir.toopia.utils.InputValidation.isValidPhoneNumber
 import com.shobeir.toopia.viewmodel.LoginViewModel
@@ -49,7 +51,8 @@ fun LoginScreen(
                 modifier = Modifier.padding(
                     horizontal = MaterialTheme.spacing.semiLarge
                 ),
-                style = MaterialTheme.typography.h6,
+                fontFamily = shabnam,
+                fontSize = 20.sp,
                 text = stringResource(id = R.string.loginTxt),
                 color = md_theme_light_outline,
                 fontWeight = FontWeight.Bold
@@ -65,22 +68,26 @@ fun LoginScreen(
             )
         }
         item {
-            MyButton(text = stringResource(id = R.string.digikala_entry)) {
-                if (isValidPhoneNumber(loginViewModel.inputPhoneState)
-                ) {
-                    loginViewModel.sendSms()
-                    sharedViewModel.addUserReg(UserRegister(phone = loginViewModel.inputPhoneState, code = random().toString()))
-                    loginViewModel.screenState = ProfileScreenState.REGISTER_STATE
-                } else {
-                    Toast.makeText(
-                        context,
-                        context.resources.getText(R.string.login_error),
-                        Toast.LENGTH_LONG
-                    ).show()
+            if (loginViewModel.loadingState){
+                LoadingButton()
+            }else{
+                MyButton(text = stringResource(id = R.string.digikala_entry)) {
+                    if (isValidPhoneNumber(loginViewModel.inputPhoneState)
+                    ) {
+                        loginViewModel.sendSms()
+                        sharedViewModel.addUserReg(UserRegister(phone = loginViewModel.inputPhoneState, code = loginViewModel.codeState))
+                        loginViewModel.screenState = HomeScreenState.REGISTER_STATE
+                    } else {
+                        Toast.makeText(
+                            context,
+                            context.resources.getText(R.string.login_error),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
                 }
-
-
             }
+
         }
 
     }
