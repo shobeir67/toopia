@@ -24,6 +24,12 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
             api.getPishUser(phone = phone)
         }
 
+    suspend fun getResult(): NetworkResult<ModelPish> =
+        safeApiCall {
+            api.getResult()
+        }
+
+
 
     suspend fun setPish(
         phone: String,

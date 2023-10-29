@@ -21,6 +21,7 @@ class PishViewModel @Inject constructor(private val repository: HomeRepository) 
 
     val loginResponse = MutableStateFlow<NetworkResult<Data>>(NetworkResult.Loading())
     val pishResponse = MutableStateFlow<NetworkResult<ModelPish>>(NetworkResult.Loading())
+    val resultResponse = MutableStateFlow<NetworkResult<ModelPish>>(NetworkResult.Loading())
 
    suspend fun setPish(
         phone: String,
@@ -66,10 +67,12 @@ class PishViewModel @Inject constructor(private val repository: HomeRepository) 
         }
     }
 
-     fun getPish(phone: String){
+    suspend fun getPish(phone: String){
          viewModelScope.launch {
-            pishResponse.emit(repository.getPishUser(phone))
+            resultResponse.emit(repository.getPishUser(phone))
         }
-    }
+     }
+
+
 
 }

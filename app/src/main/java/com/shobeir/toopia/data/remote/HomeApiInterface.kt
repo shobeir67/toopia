@@ -11,6 +11,9 @@ interface HomeApiInterface {
     @GET("get-slider.php")
     suspend fun getSlider() : Response<ResponseResult<List<Slider>>>
 
+    @GET("get-result.php")
+    suspend fun getResult() : Response<ResponseResult<ModelPish>>
+
     @FormUrlEncoded
     @POST("register.php")
     suspend fun register(@Field("phone") phone:String, @Field("code") code:String):Response<ResponseResult<Data>>

@@ -2,6 +2,7 @@ package com.shobeir.toopia.data.model
 
 data class ModelPish(
     val phone:String,
+    val id_play:String,
     val goleOne:String,
     val goleTow:String,
     val yellowOne:String,

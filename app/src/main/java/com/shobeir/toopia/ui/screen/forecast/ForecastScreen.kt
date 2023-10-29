@@ -116,6 +116,7 @@ fun Forecast(
     }
 
     val pishResult by viewModel.loginResponse.collectAsState()
+
     LaunchedEffect(key1 = pishResult){
         when(pishResult){
             is NetworkResult.Success -> {
@@ -132,55 +133,55 @@ fun Forecast(
             }
         }
     }
+
+    var resultPlayItem by remember {
+        mutableStateOf<ModelPish?>(null)
+    }
+    val resultPlay by viewModel.resultResponse.collectAsState()
+
+    LaunchedEffect(key1 = pishResult){
+        when(resultPlay){
+            is NetworkResult.Success -> {
+                resultPlayItem=resultPlay.data ?: resultPlayItem
+                Toast.makeText(contex, status, Toast.LENGTH_SHORT).show()
+                loading = false
+            }
+            is NetworkResult.Error -> {
+                loading = false
+                Log.e("3636", "CartAddressSection error : ${resultPlay.message}")
+            }
+            is NetworkResult.Loading -> {
+                loading = true
+            }
+        }
+    }
     val scope = rememberCoroutineScope()
-        pishGame?.let {
-            var textGoleOne by remember { mutableStateOf(it.goleOne) }
-            var textGoleTow by remember { mutableStateOf(it.goleTow) }
 
-            var textYellowOne by remember { mutableStateOf(it.yellowOne) }
-            var textYellowTow by remember { mutableStateOf(it.yellowTow) }
+            var textGoleOne by remember { mutableStateOf(pishGame!!.goleOne) }
+            var textGoleTow by remember { mutableStateOf(pishGame!!.goleTow) }
 
-            var textRedOne by remember { mutableStateOf(it.redOne) }
-            var textRedTow by remember { mutableStateOf(it.redTow) }
+            var textYellowOne by remember { mutableStateOf(pishGame!!.yellowOne) }
+            var textYellowTow by remember { mutableStateOf(pishGame!!.yellowTow) }
 
-            var textMalekiyatOne by remember { mutableStateOf(it.malekiyatOne) }
-            var textMalekiyatTow by remember { mutableStateOf(it.malekiyatTow) }
+            var textRedOne by remember { mutableStateOf(pishGame!!.redOne) }
+            var textRedTow by remember { mutableStateOf(pishGame!!.redTow) }
 
-            var textCornerOne by remember { mutableStateOf(it.cornerOne) }
-            var textCornerTow by remember { mutableStateOf(it.cornerTow) }
+            var textMalekiyatOne by remember { mutableStateOf(pishGame!!.malekiyatOne) }
+            var textMalekiyatTow by remember { mutableStateOf(pishGame!!.malekiyatTow) }
 
-            var textKhataOne by remember { mutableStateOf(it.khataOne) }
-            var textKhataTow by remember { mutableStateOf(it.khataTow) }
+            var textCornerOne by remember { mutableStateOf(pishGame!!.cornerOne) }
+            var textCornerTow by remember { mutableStateOf(pishGame!!.cornerTow) }
 
-            var textAfsaideOne by remember { mutableStateOf(it.afsaideOne) }
-            var textAfsaideTow by remember { mutableStateOf(it.afsaideTow) }
+            var textKhataOne by remember { mutableStateOf(pishGame!!.khataOne) }
+            var textKhataTow by remember { mutableStateOf(pishGame!!.khataTow) }
 
-            var textShooteOne by remember { mutableStateOf(it.shooteOne) }
-            var textShooteTow by remember { mutableStateOf(it.shooteTow) }
+            var textAfsaideOne by remember { mutableStateOf(pishGame!!.afsaideOne) }
+            var textAfsaideTow by remember { mutableStateOf(pishGame!!.afsaideTow) }
 
-            val goleOne by remember { mutableStateOf("") }
-            val goleTow by remember { mutableStateOf("") }
+            var textShooteOne by remember { mutableStateOf(pishGame!!.shooteOne) }
+            var textShooteTow by remember { mutableStateOf(pishGame!!.shooteTow) }
 
-            val yellowOne by remember { mutableStateOf("") }
-            val yellowTow by remember { mutableStateOf("") }
 
-            val redOne by remember { mutableStateOf("") }
-            val redTow by remember { mutableStateOf("") }
-
-            val malekiyatOne by remember { mutableStateOf("") }
-            val malekiyatTow by remember { mutableStateOf("") }
-
-            val cornerOne by remember { mutableStateOf("") }
-            val cornerTow by remember { mutableStateOf("") }
-
-            val khataOne by remember { mutableStateOf("") }
-            val khataTow by remember { mutableStateOf("") }
-
-            val afsaideOne by remember { mutableStateOf("") }
-            val afsaideTow by remember { mutableStateOf("") }
-
-            val shooteOne by remember { mutableStateOf("") }
-            val shooteTow by remember { mutableStateOf("") }
 
             val pdate = PersianDate()
             val pFormatter = PersianDateFormat().format(pdate)
@@ -289,7 +290,7 @@ fun Forecast(
                             ),
                         )
                         Text(
-                            text = goleOne,
+                            text = resultPlayItem!!.goleOne,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -302,7 +303,7 @@ fun Forecast(
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = goleTow,
+                            text = resultPlayItem!!.goleTow,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -340,7 +341,7 @@ fun Forecast(
                             ),
                         )
                         Text(
-                            text = yellowOne,
+                            text = resultPlayItem!!.yellowOne,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -354,7 +355,7 @@ fun Forecast(
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = yellowTow,
+                            text = resultPlayItem!!.yellowTow,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -392,7 +393,7 @@ fun Forecast(
                             ),
                         )
                         Text(
-                            text = redOne,
+                            text = resultPlayItem!!.redOne,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -406,7 +407,7 @@ fun Forecast(
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = redTow,
+                            text = resultPlayItem!!.redTow,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -444,7 +445,7 @@ fun Forecast(
                             ),
                         )
                         Text(
-                            text = malekiyatOne,
+                            text = resultPlayItem!!.malekiyatOne,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -458,7 +459,7 @@ fun Forecast(
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = malekiyatTow,
+                            text = resultPlayItem!!.malekiyatTow,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -496,7 +497,7 @@ fun Forecast(
                             ),
                         )
                         Text(
-                            text = cornerOne,
+                            text = resultPlayItem!!.cornerOne,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -510,7 +511,7 @@ fun Forecast(
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = cornerTow,
+                            text = resultPlayItem!!.cornerTow,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -548,7 +549,7 @@ fun Forecast(
                             ),
                         )
                         Text(
-                            text = khataOne,
+                            text = resultPlayItem!!.khataOne,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -562,7 +563,7 @@ fun Forecast(
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = khataTow,
+                            text = resultPlayItem!!.khataTow,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -600,7 +601,7 @@ fun Forecast(
                             ),
                         )
                         Text(
-                            text = afsaideOne,
+                            text = resultPlayItem!!.afsaideOne,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -614,7 +615,7 @@ fun Forecast(
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = afsaideTow,
+                            text = resultPlayItem!!.afsaideTow,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -652,7 +653,7 @@ fun Forecast(
                             ),
                         )
                         Text(
-                            text = shooteOne,
+                            text = resultPlayItem!!.shooteOne,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -666,7 +667,7 @@ fun Forecast(
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = shooteTow,
+                            text = resultPlayItem!!.shooteTow,
                             fontFamily = shabnam, fontSize = 16.sp,
                             textAlign = TextAlign.Center,
                             color = md_theme_light_onPrimaryContainer,
@@ -724,5 +725,5 @@ fun Forecast(
                     }
                 }
             }
-        }
+
 }

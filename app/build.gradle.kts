@@ -64,7 +64,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
 
 
-    implementation ("androidx.compose.material:material-icons-extended:1.6.0-alpha07")
+    implementation ("androidx.compose.material:material-icons-extended:1.6.0-alpha08")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     // Dagger - Hilt
@@ -85,7 +85,7 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-swiperefresh:0.28.0")
 
     //animation
-    implementation ("com.airbnb.android:lottie-compose:5.2.0")
+    implementation ("com.airbnb.android:lottie-compose:6.0.1")
 
     //Accompanist-Pager
     implementation ("com.google.accompanist:accompanist-pager:0.29.2-rc")
@@ -95,7 +95,7 @@ dependencies {
     implementation ("io.coil-kt:coil-compose:2.4.0")
 
     //compose navigation
-    implementation ("androidx.navigation:navigation-compose:2.7.0-rc01")
+    implementation ("androidx.navigation:navigation-compose:2.7.4")
 
     //datastore
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
