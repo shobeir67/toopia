@@ -19,7 +19,7 @@ import javax.inject.Inject
 class PishViewModel @Inject constructor(private val repository: HomeRepository) :
     ViewModel() {
 
-    val loginResponse = MutableStateFlow<NetworkResult<Data>>(NetworkResult.Loading())
+    val setPishResponse = MutableStateFlow<NetworkResult<Data>>(NetworkResult.Loading())
     val pishResponse = MutableStateFlow<NetworkResult<ModelPish>>(NetworkResult.Loading())
     val resultResponse = MutableStateFlow<NetworkResult<ModelPish>>(NetworkResult.Loading())
 
@@ -43,7 +43,7 @@ class PishViewModel @Inject constructor(private val repository: HomeRepository) 
         shooteTow: String
     ) {
         viewModelScope.launch {
-            loginResponse.emit(
+            setPishResponse.emit(
                 repository.setPish(
                     phone,
                     goleOne,
@@ -69,9 +69,17 @@ class PishViewModel @Inject constructor(private val repository: HomeRepository) 
 
     suspend fun getPish(phone: String){
          viewModelScope.launch {
-            resultResponse.emit(repository.getPishUser(phone))
+            pishResponse.emit(repository.getPishUser(phone))
         }
      }
+
+    fun getResultPlay(){
+        viewModelScope.launch {
+            resultResponse.emit(repository.getResult())
+        }
+    }
+
+
 
 
 
