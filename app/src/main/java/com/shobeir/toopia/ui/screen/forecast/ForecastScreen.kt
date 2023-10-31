@@ -81,14 +81,13 @@ fun Forecast(
     viewModel: PishViewModel = hiltViewModel(),
     storeViewModel: StoreViewModel = hiltViewModel()
 ) {
-    viewModel.getResultPlay()
     var phoneUser by rememberSaveable { mutableStateOf("") }
     LaunchedEffect(key1 = Unit) {
         storeViewModel.readString(PreferenceHelper.MOBILE_NAME).collectLatest {
             phoneUser = it
             delay(300)
             viewModel.getPish(phoneUser)
-
+            viewModel.getResultPlay()
         }
     }
 
