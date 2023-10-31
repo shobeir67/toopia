@@ -59,6 +59,7 @@ import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.remote.NetworkResult
 import com.shobeir.toopia.persiandate.PersianDate
 import com.shobeir.toopia.persiandate.PersianDateFormat
+import com.shobeir.toopia.ui.screen.components.Loading3Dots
 import com.shobeir.toopia.ui.theme.md_theme_light_onPrimary
 import com.shobeir.toopia.ui.theme.md_theme_light_onPrimaryContainer
 import com.shobeir.toopia.ui.theme.shabnam
@@ -95,12 +96,16 @@ fun Forecast(
     var loading by remember {
         mutableStateOf(false)
     }
+    var loadingResult by remember {
+        mutableStateOf(false)
+    }
     var pishGame by remember {
         mutableStateOf<ModelPish?>(null)
     }
     var status by remember {
         mutableStateOf("")
     }
+
     val getPishGame by viewModel.pishResponse.collectAsState()
     LaunchedEffect(key1 = getPishGame){
         when(getPishGame){
@@ -143,22 +148,21 @@ fun Forecast(
     val resultPlay by viewModel.resultResponse.collectAsState()
 
     LaunchedEffect(key1 = true){
-        delay(5000)
+        loadingResult = true
+        delay(2000)
+        loadingResult = false
         when(resultPlay){
             is NetworkResult.Success -> {
                 resultPlayItem=resultPlay.data
-                loading = false
             }
             is NetworkResult.Error -> {
-                loading = false
                 Log.e("3636", "CartAddressSection error : ${resultPlay.message}")
             }
             is NetworkResult.Loading -> {
-                loading = true
+
             }
         }
     }
-
 
     val scope = rememberCoroutineScope()
     pishGame?.let {
@@ -186,27 +190,73 @@ fun Forecast(
                var textShooteOne by remember { mutableStateOf(it.shooteOne) }
                var textShooteTow by remember { mutableStateOf(it.shooteTow) }
 
-
+        var scoreUser by remember {
+            mutableIntStateOf(0)
+        }
                val pdate = PersianDate()
                val pFormatter = PersianDateFormat().format(pdate)
                var timeLeft by remember {
                    mutableIntStateOf(120)
                }
-               LaunchedEffect(key1 = timeLeft) {
-                   while (timeLeft > 0) {
-                       delay(1000L)
-                       timeLeft--
-                   }
-               }
-               if (loading) {
-                   Box(
-                       modifier = Modifier
-                           .fillMaxSize(),
-                       contentAlignment = Alignment.Center
-                   ) {
-                       CircularProgressIndicator()
-                   }
-               }
+
+                LaunchedEffect(key1 = Unit){
+                    delay(1500)
+                    if (it.goleOne == resultPlayItem!!.goleOne){
+                        scoreUser += 10
+                    }
+                    if (it.goleTow == resultPlayItem!!.goleTow){
+                        scoreUser += 10
+                    }
+                    if (it.yellowOne == resultPlayItem!!.yellowOne){
+                        scoreUser += 10
+                    }
+                    if (it.yellowTow == resultPlayItem!!.yellowTow){
+                        scoreUser += 10
+                    }
+                    if (it.redOne == resultPlayItem!!.redOne){
+                        scoreUser += 10
+                    }
+                    if (it.redTow == resultPlayItem!!.redTow){
+                        scoreUser += 10
+                    }
+                    if (it.malekiyatOne == resultPlayItem!!.malekiyatOne){
+                        scoreUser += 10
+                    }
+                    if (it.malekiyatTow == resultPlayItem!!.malekiyatTow){
+                        scoreUser += 10
+                    }
+                    if (it.cornerOne == resultPlayItem!!.cornerOne){
+                        scoreUser += 10
+                    }
+                    if (it.cornerTow == resultPlayItem!!.cornerTow){
+                        scoreUser += 10
+                    }
+                    if (it.khataOne == resultPlayItem!!.khataOne){
+                        scoreUser += 10
+                    }
+                    if (it.khataTow == resultPlayItem!!.khataTow){
+                        scoreUser += 10
+                    }
+                    if (it.afsaideOne == resultPlayItem!!.afsaideOne){
+                        scoreUser += 10
+                    }
+                    if (it.afsaideTow == resultPlayItem!!.afsaideTow){
+                        scoreUser += 10
+                    }
+                    if (it.shooteOne == resultPlayItem!!.shooteOne){
+                        scoreUser += 10
+                    }
+                    if (it.shooteTow == resultPlayItem!!.shooteTow){
+                        scoreUser += 10
+                    }
+                }
+
+               LaunchedEffect(key1 = Unit) {
+//                   while (timeLeft > 0) {
+//                       delay(1000L)
+//                       timeLeft--
+//                   }
+                 }
                Column(
                    modifier = Modifier
                        .fillMaxSize()
@@ -230,7 +280,7 @@ fun Forecast(
                                text = pFormatter,
                                color = Color.White,
                                fontFamily = shabnam,
-                               fontSize = 20.sp,
+                               fontSize = 18.sp,
                                textAlign = TextAlign.Center,
                                modifier = Modifier.fillMaxWidth()
                            )
@@ -269,466 +319,483 @@ fun Forecast(
                                    )
                                }
                            }
+                           Text(
+                               text = "امتیاز:$scoreUser",
+                               color = Color.White,
+                               fontFamily = shabnam,
+                               fontSize = 18.sp,
+                               textAlign = TextAlign.Center,
+                               modifier = Modifier.fillMaxWidth()
+                           )
                        }
 
                    }
                    Spacer(modifier = Modifier.height(15.dp))
-                   resultPlayItem?.let {result->
-                       Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                           Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround,
-                               verticalAlignment = Alignment.CenterVertically
-                           ) {
-                               OutlinedTextField(
-                                   value = textGoleOne,
-                                   onValueChange = { textGoleOne = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp)
-                                       .padding(0.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                               Text(
-                                   text = result.goleOne,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               Text(
-                                   text = "گل",
-                                   fontFamily = shabnam, fontSize = 20.sp,
-                                   modifier = Modifier.width(150.dp),
-                                   textAlign = TextAlign.Center
-                               )
-                               Text(
-                                   text = result.goleTow,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               OutlinedTextField(
-                                   value = textGoleTow,
-                                   onValueChange = { textGoleTow = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                           }
-                           Spacer(modifier = Modifier.height(10.dp))
-                           Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround,
-                               verticalAlignment = Alignment.CenterVertically
-                           ) {
-                               OutlinedTextField(
-                                   value = textYellowOne,
-                                   onValueChange = { textYellowOne = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                               Text(
-                                   text = result.yellowOne,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               Text(
-                                   text = "کارت زرد",
-                                   fontFamily = shabnam,
-                                   fontSize = 20.sp,
-                                   modifier = Modifier.width(150.dp),
-                                   textAlign = TextAlign.Center
-                               )
-                               Text(
-                                   text = result.yellowTow,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               OutlinedTextField(
-                                   value = textYellowTow,
-                                   onValueChange = { textYellowTow = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                           }
-                           Spacer(modifier = Modifier.height(10.dp))
-                           Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround,
-                               verticalAlignment = Alignment.CenterVertically
-                           ) {
-                               OutlinedTextField(
-                                   value = textRedOne,
-                                   onValueChange = { textRedOne = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                               Text(
-                                   text = result.redOne,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               Text(
-                                   text = "کارت قرمز",
-                                   fontFamily = shabnam,
-                                   fontSize = 20.sp,
-                                   modifier = Modifier.width(150.dp),
-                                   textAlign = TextAlign.Center
-                               )
-                               Text(
-                                   text = result.redTow,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               OutlinedTextField(
-                                   value = textRedTow,
-                                   onValueChange = { textRedTow = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                           }
-                           Spacer(modifier = Modifier.height(10.dp))
-                           Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround,
-                               verticalAlignment = Alignment.CenterVertically
-                           ) {
-                               OutlinedTextField(
-                                   value = textMalekiyatOne,
-                                   onValueChange = { textMalekiyatOne = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                               Text(
-                                   text = result.malekiyatOne,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               Text(
-                                   text = "درصدمالکیت",
-                                   fontFamily = shabnam,
-                                   fontSize = 20.sp,
-                                   modifier = Modifier.width(150.dp),
-                                   textAlign = TextAlign.Center
-                               )
-                               Text(
-                                   text = result.malekiyatTow,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               OutlinedTextField(
-                                   value = textMalekiyatTow,
-                                   onValueChange = { textMalekiyatTow = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                           }
-                           Spacer(modifier = Modifier.height(10.dp))
-                           Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround,
-                               verticalAlignment = Alignment.CenterVertically
-                           ) {
-                               OutlinedTextField(
-                                   value = textCornerOne,
-                                   onValueChange = { textCornerOne = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                               Text(
-                                   text = result.cornerOne,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               Text(
-                                   text = "کرنر",
-                                   fontFamily = shabnam,
-                                   fontSize = 20.sp,
-                                   modifier = Modifier.width(150.dp),
-                                   textAlign = TextAlign.Center
-                               )
-                               Text(
-                                   text = result.cornerTow,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               OutlinedTextField(
-                                   value = textCornerTow,
-                                   onValueChange = { textCornerTow = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                           }
-                           Spacer(modifier = Modifier.height(10.dp))
-                           Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround,
-                               verticalAlignment = Alignment.CenterVertically
-                           ) {
-                               OutlinedTextField(
-                                   value = textKhataOne,
-                                   onValueChange = { textKhataOne = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                               Text(
-                                   text = result.khataOne,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               Text(
-                                   text = "خطا",
-                                   fontFamily = shabnam,
-                                   fontSize = 20.sp,
-                                   modifier = Modifier.width(150.dp),
-                                   textAlign = TextAlign.Center
-                               )
-                               Text(
-                                   text = result.khataTow,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               OutlinedTextField(
-                                   value = textKhataTow,
-                                   onValueChange = { textKhataTow = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                           }
-                           Spacer(modifier = Modifier.height(10.dp))
-                           Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround,
-                               verticalAlignment = Alignment.CenterVertically
-                           ) {
-                               OutlinedTextField(
-                                   value = textAfsaideOne,
-                                   onValueChange = { textAfsaideOne = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                               Text(
-                                   text = result.afsaideOne,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               Text(
-                                   text = "آفساید",
-                                   fontFamily = shabnam,
-                                   fontSize = 20.sp,
-                                   modifier = Modifier.width(150.dp),
-                                   textAlign = TextAlign.Center
-                               )
-                               Text(
-                                   text = result.afsaideTow,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               OutlinedTextField(
-                                   value = textAfsaideTow,
-                                   onValueChange = { textAfsaideTow = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                           }
-                           Spacer(modifier = Modifier.height(10.dp))
-                           Row(
-                               modifier = Modifier.fillMaxWidth(),
-                               horizontalArrangement = Arrangement.SpaceAround,
-                               verticalAlignment = Alignment.CenterVertically
-                           ) {
-                               OutlinedTextField(
-                                   value = textShooteOne,
-                                   onValueChange = { textShooteOne = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                               Text(
-                                   text = result.shooteOne,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               Text(
-                                   text = "شوت در چارچوب",
-                                   fontFamily = shabnam,
-                                   fontSize = 20.sp,
-                                   modifier = Modifier.width(150.dp),
-                                   textAlign = TextAlign.Center
-                               )
-                               Text(
-                                   text = result.shooteTow,
-                                   fontFamily = shabnam, fontSize = 16.sp,
-                                   textAlign = TextAlign.Center,
-                                   color = md_theme_light_onPrimaryContainer,
-                                   fontWeight = FontWeight.Bold
-                               )
-                               OutlinedTextField(
-                                   value = textShooteTow,
-                                   onValueChange = { textShooteTow = it },
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(50.dp),
-                                   keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                   textStyle = LocalTextStyle.current.copy(
-                                       fontSize = 16.sp,
-                                       textAlign = TextAlign.Center
-                                   ),
-                               )
-                           }
-                           Spacer(modifier = Modifier.height(5.dp))
-                           Button(
-                               onClick = {
-                                   scope.launch {
-                                       viewModel.setPish(
-                                           phoneUser,
-                                           textGoleOne,
-                                           textGoleTow,
-                                           textYellowOne,
-                                           textYellowTow,
-                                           textRedOne,
-                                           textRedTow,
-                                           textMalekiyatOne,
-                                           textMalekiyatTow,
-                                           textCornerOne,
-                                           textCornerTow,
-                                           textKhataOne,
-                                           textKhataTow,
-                                           textAfsaideOne,
-                                           textAfsaideTow,
-                                           textShooteOne,
-                                           textShooteTow,
-                                       )
-                                   }
-                               }, modifier = Modifier
-                                   .fillMaxWidth()
-                                   .padding(10.dp),
-                               colors = ButtonDefaults.buttonColors(
-                                   backgroundColor = md_theme_light_onPrimaryContainer
-                               )
-                           ) {
-                               Text(
-                                   text = "ثبت پیش بینی", fontFamily = shabnam,
-                                   fontSize = 18.sp,
-                                   color = Color.White
-                               )
-                           }
+                   if (loadingResult) {
+                       Box(
+                           modifier = Modifier
+                               .fillMaxSize(),
+                           contentAlignment = Alignment.Center
+                       ) {
+                          Loading3Dots(isDark = true)
                        }
                    }
-               }
-           }
+                   resultPlayItem?.let {result->
+                      Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   horizontalArrangement = Arrangement.SpaceAround,
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   OutlinedTextField(
+                                       value = textGoleOne,
+                                       onValueChange = { textGoleOne = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp)
+                                           .padding(0.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                                   Text(
+                                       text = result.goleOne,
+                                       fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   Text(
+                                       text = "گل",
+                                       fontFamily = shabnam, fontSize = 20.sp,
+                                       modifier = Modifier.width(150.dp),
+                                       textAlign = TextAlign.Center
+                                   )
+                                   Text(
+                                       text = result.goleTow,
+                                       fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   OutlinedTextField(
+                                       value = textGoleTow,
+                                       onValueChange = { textGoleTow = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                               }
+                               Spacer(modifier = Modifier.height(10.dp))
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   horizontalArrangement = Arrangement.SpaceAround,
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   OutlinedTextField(
+                                       value = textYellowOne,
+                                       onValueChange = { textYellowOne = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                                   Text(
+                                       text = result.yellowOne,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   Text(
+                                       text = "کارت زرد",
+                                       fontFamily = shabnam,
+                                       fontSize = 20.sp,
+                                       modifier = Modifier.width(150.dp),
+                                       textAlign = TextAlign.Center
+                                   )
+                                   Text(
+                                       text = result.yellowTow,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   OutlinedTextField(
+                                       value = textYellowTow,
+                                       onValueChange = { textYellowTow = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                               }
+                               Spacer(modifier = Modifier.height(10.dp))
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   horizontalArrangement = Arrangement.SpaceAround,
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   OutlinedTextField(
+                                       value = textRedOne,
+                                       onValueChange = { textRedOne = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                                   Text(
+                                       text = result.redOne,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   Text(
+                                       text = "کارت قرمز",
+                                       fontFamily = shabnam,
+                                       fontSize = 20.sp,
+                                       modifier = Modifier.width(150.dp),
+                                       textAlign = TextAlign.Center
+                                   )
+                                   Text(
+                                       text = result.redTow,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   OutlinedTextField(
+                                       value = textRedTow,
+                                       onValueChange = { textRedTow = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                               }
+                               Spacer(modifier = Modifier.height(10.dp))
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   horizontalArrangement = Arrangement.SpaceAround,
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   OutlinedTextField(
+                                       value = textMalekiyatOne,
+                                       onValueChange = { textMalekiyatOne = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                                   Text(
+                                       text = result.malekiyatOne,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   Text(
+                                       text = "درصدمالکیت",
+                                       fontFamily = shabnam,
+                                       fontSize = 20.sp,
+                                       modifier = Modifier.width(150.dp),
+                                       textAlign = TextAlign.Center
+                                   )
+                                   Text(
+                                       text = result.malekiyatTow,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   OutlinedTextField(
+                                       value = textMalekiyatTow,
+                                       onValueChange = { textMalekiyatTow = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                               }
+                               Spacer(modifier = Modifier.height(10.dp))
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   horizontalArrangement = Arrangement.SpaceAround,
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   OutlinedTextField(
+                                       value = textCornerOne,
+                                       onValueChange = { textCornerOne = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                                   Text(
+                                       text = result.cornerOne,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   Text(
+                                       text = "کرنر",
+                                       fontFamily = shabnam,
+                                       fontSize = 20.sp,
+                                       modifier = Modifier.width(150.dp),
+                                       textAlign = TextAlign.Center
+                                   )
+                                   Text(
+                                       text = result.cornerTow,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   OutlinedTextField(
+                                       value = textCornerTow,
+                                       onValueChange = { textCornerTow = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                               }
+                               Spacer(modifier = Modifier.height(10.dp))
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   horizontalArrangement = Arrangement.SpaceAround,
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   OutlinedTextField(
+                                       value = textKhataOne,
+                                       onValueChange = { textKhataOne = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                                   Text(
+                                       text = result.khataOne,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   Text(
+                                       text = "خطا",
+                                       fontFamily = shabnam,
+                                       fontSize = 20.sp,
+                                       modifier = Modifier.width(150.dp),
+                                       textAlign = TextAlign.Center
+                                   )
+                                   Text(
+                                       text = result.khataTow,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   OutlinedTextField(
+                                       value = textKhataTow,
+                                       onValueChange = { textKhataTow = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                               }
+                               Spacer(modifier = Modifier.height(10.dp))
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   horizontalArrangement = Arrangement.SpaceAround,
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   OutlinedTextField(
+                                       value = textAfsaideOne,
+                                       onValueChange = { textAfsaideOne = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                                   Text(
+                                       text = result.afsaideOne,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   Text(
+                                       text = "آفساید",
+                                       fontFamily = shabnam,
+                                       fontSize = 20.sp,
+                                       modifier = Modifier.width(150.dp),
+                                       textAlign = TextAlign.Center
+                                   )
+                                   Text(
+                                       text = result.afsaideTow,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   OutlinedTextField(
+                                       value = textAfsaideTow,
+                                       onValueChange = { textAfsaideTow = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                               }
+                               Spacer(modifier = Modifier.height(10.dp))
+                               Row(
+                                   modifier = Modifier.fillMaxWidth(),
+                                   horizontalArrangement = Arrangement.SpaceAround,
+                                   verticalAlignment = Alignment.CenterVertically
+                               ) {
+                                   OutlinedTextField(
+                                       value = textShooteOne,
+                                       onValueChange = { textShooteOne = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                                   Text(
+                                       text = result.shooteOne,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   Text(
+                                       text = "شوت در چارچوب",
+                                       fontFamily = shabnam,
+                                       fontSize = 20.sp,
+                                       modifier = Modifier.width(150.dp),
+                                       textAlign = TextAlign.Center
+                                   )
+                                   Text(
+                                       text = result.shooteTow,
+                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       textAlign = TextAlign.Center,
+                                       color = md_theme_light_onPrimaryContainer,
+                                       fontWeight = FontWeight.Bold
+                                   )
+                                   OutlinedTextField(
+                                       value = textShooteTow,
+                                       onValueChange = { textShooteTow = it },
+                                       modifier = Modifier
+                                           .width(60.dp)
+                                           .height(50.dp),
+                                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                       textStyle = LocalTextStyle.current.copy(
+                                           fontSize = 16.sp,
+                                           textAlign = TextAlign.Center
+                                       ),
+                                   )
+                               }
+                               Spacer(modifier = Modifier.height(5.dp))
+                               Button(
+                                   onClick = {
+                                       scope.launch {
+                                           viewModel.setPish(
+                                               phoneUser,
+                                               textGoleOne,
+                                               textGoleTow,
+                                               textYellowOne,
+                                               textYellowTow,
+                                               textRedOne,
+                                               textRedTow,
+                                               textMalekiyatOne,
+                                               textMalekiyatTow,
+                                               textCornerOne,
+                                               textCornerTow,
+                                               textKhataOne,
+                                               textKhataTow,
+                                               textAfsaideOne,
+                                               textAfsaideTow,
+                                               textShooteOne,
+                                               textShooteTow,
+                                           )
+                                       }
+                                   }, modifier = Modifier
+                                       .fillMaxWidth()
+                                       .padding(10.dp),
+                                   colors = ButtonDefaults.buttonColors(
+                                       backgroundColor = md_theme_light_onPrimaryContainer
+                                   )
+                               ) {
+                                   Text(
+                                       text = "ثبت پیش بینی", fontFamily = shabnam,
+                                       fontSize = 18.sp,
+                                       color = Color.White
+                                   )
+                               }
+                           }
+                   }
+         }
+    }
 }

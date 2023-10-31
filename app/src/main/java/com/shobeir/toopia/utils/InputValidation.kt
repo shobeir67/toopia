@@ -1,6 +1,8 @@
 package com.shobeir.toopia.utils
 
+import androidx.compose.runtime.remember
 import androidx.core.text.isDigitsOnly
+import com.shobeir.toopia.data.model.ModelPish
 
 object InputValidation {
 
@@ -20,4 +22,6 @@ object InputValidation {
         return input.isNotEmpty() && input.isNotBlank() && input.length >= 6
     }
 
+
 }
+
