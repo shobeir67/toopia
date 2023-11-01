@@ -26,7 +26,7 @@ fun SetupNavGraph(
         }
 
         composable(route=Screen.Forecast.route){
-            ForecastScreen()
+            ForecastScreen(sharedViewModel)
         }
 
         composable(route= Screen.Login.route){

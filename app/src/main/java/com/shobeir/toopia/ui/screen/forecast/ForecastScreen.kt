@@ -39,6 +39,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -51,7 +53,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.shobeir.toopia.R
+import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.datastore.PreferenceHelper
 import com.shobeir.toopia.data.datastore.StoreViewModel
 import com.shobeir.toopia.data.model.Data
@@ -62,7 +66,11 @@ import com.shobeir.toopia.persiandate.PersianDateFormat
 import com.shobeir.toopia.ui.screen.components.Loading3Dots
 import com.shobeir.toopia.ui.theme.md_theme_light_onPrimary
 import com.shobeir.toopia.ui.theme.md_theme_light_onPrimaryContainer
+import com.shobeir.toopia.ui.theme.md_theme_light_onSecondary
+import com.shobeir.toopia.ui.theme.md_theme_light_tertiary
 import com.shobeir.toopia.ui.theme.shabnam
+import com.shobeir.toopia.utils.Constants
+import com.shobeir.toopia.utils.Constants.BASE_URL
 import com.shobeir.toopia.viewmodel.PishViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -71,17 +79,20 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun ForecastScreen() {
-    Forecast()
+fun ForecastScreen(sharedViewModel: SharedViewModel) {
+    Forecast(sharedViewModel=sharedViewModel)
 }
+
 
 @SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Forecast(
+    sharedViewModel: SharedViewModel,
     viewModel: PishViewModel = hiltViewModel(),
     storeViewModel: StoreViewModel = hiltViewModel()
 ) {
+    val team = sharedViewModel.team
     var phoneUser by rememberSaveable { mutableStateOf("") }
     LaunchedEffect(key1 = Unit) {
         storeViewModel.readString(PreferenceHelper.MOBILE_NAME).collectLatest {
@@ -104,6 +115,10 @@ fun Forecast(
     }
     var status by remember {
         mutableStateOf("")
+    }
+
+    var statusPlay by remember {
+        mutableStateOf(false)
     }
 
     val getPishGame by viewModel.pishResponse.collectAsState()
@@ -210,7 +225,7 @@ fun Forecast(
                Column(
                    modifier = Modifier
                        .fillMaxSize()
-                       .background(md_theme_light_onPrimary)
+                       .background(md_theme_light_tertiary)
                )
                {
                    Box(
@@ -227,7 +242,7 @@ fun Forecast(
                        )
                        Column(modifier = Modifier.padding(10.dp)) {
                            Text(
-                               text = pFormatter,
+                               text = team!!.date_game,
                                color = Color.White,
                                fontFamily = shabnam,
                                fontSize = 18.sp,
@@ -241,13 +256,11 @@ fun Forecast(
                                verticalAlignment = Alignment.CenterVertically
                            ) {
                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                   Image(
-                                       painter = painterResource(id = R.mipmap.svoqvqnj),
-                                       contentDescription = "", modifier = Modifier.size(60.dp)
-                                   )
+                                   AsyncImage(model = BASE_URL +team.logoOne, contentDescription = "",
+                                       modifier = Modifier.size(60.dp))
 
                                    Text(
-                                       text = "جبل الطارق",
+                                       text = team.teamOne,
                                        color = Color.White,
                                        fontFamily = shabnam,
                                        fontSize = 18.sp
@@ -255,13 +268,10 @@ fun Forecast(
                                }
 
                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                   Image(
-                                       painter = painterResource(id = R.mipmap.z4aa3n0p),
-                                       contentDescription = "",
-                                       modifier = Modifier.size(60.dp)
-                                   )
+                                   AsyncImage(model = BASE_URL +team.logoTow, contentDescription = "",
+                                       modifier = Modifier.size(60.dp))
                                    Text(
-                                       text = "ایرلند",
+                                       text = team.teamTow,
                                        color = Color.White,
                                        fontFamily = shabnam,
                                        fontSize = 18.sp
@@ -269,6 +279,7 @@ fun Forecast(
                                    )
                                }
                            }
+                           Spacer(modifier = Modifier.height(8.dp))
                            Text(
                                text = "امتیاز:$scoreUser",
                                color = Color.White,
@@ -343,6 +354,29 @@ fun Forecast(
                            }
                        }
                       Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                          Row(
+                              modifier = Modifier.fillMaxWidth(),
+                              horizontalArrangement = Arrangement.SpaceAround,
+                          ) {
+                              Text(
+                                  text = "پیش بینی شما   نتیجه",
+                                  fontSize = 11.sp,
+                                  fontFamily = shabnam,
+                                  textAlign = TextAlign.Center,
+                                  color = md_theme_light_onSecondary,
+                                  fontWeight = FontWeight.Bold
+                              )
+                              Spacer(modifier = Modifier.width(150.dp))
+                              Text(
+                                  text = "نتیجه   پیش بینی شما",
+                                  fontSize = 11.sp,
+                                  fontFamily = shabnam,
+                                  textAlign = TextAlign.Center,
+                                  color = md_theme_light_onSecondary,
+                                  fontWeight = FontWeight.Bold
+                              )
+                          }
+
                                Row(
                                    modifier = Modifier.fillMaxWidth(),
                                    horizontalArrangement = Arrangement.SpaceAround,
@@ -353,12 +387,12 @@ fun Forecast(
                                        onValueChange = { textGoleOne = it },
                                        modifier = Modifier
                                            .width(60.dp)
-                                           .height(50.dp)
-                                           .padding(0.dp),
+                                           .height(50.dp),
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           color = md_theme_light_onSecondary,
+                                           textAlign = TextAlign.Center,
                                        ),
                                    )
                                    Text(
@@ -372,7 +406,8 @@ fun Forecast(
                                        text = "گل",
                                        fontFamily = shabnam, fontSize = 20.sp,
                                        modifier = Modifier.width(150.dp),
-                                       textAlign = TextAlign.Center
+                                       textAlign = TextAlign.Center,
+                                       color = Color.White
                                    )
                                    Text(
                                        text = result.goleTow,
@@ -390,7 +425,8 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           color = md_theme_light_onSecondary,
+                                           textAlign = TextAlign.Center,
                                        ),
                                    )
                                }
@@ -409,12 +445,13 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                    Text(
                                        text = result.yellowOne,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -424,11 +461,12 @@ fun Forecast(
                                        fontFamily = shabnam,
                                        fontSize = 20.sp,
                                        modifier = Modifier.width(150.dp),
-                                       textAlign = TextAlign.Center
+                                       textAlign = TextAlign.Center,
+                                       color = Color.White
                                    )
                                    Text(
                                        text = result.yellowTow,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -442,7 +480,7 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                }
@@ -461,12 +499,13 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                    Text(
                                        text = result.redOne,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -476,11 +515,12 @@ fun Forecast(
                                        fontFamily = shabnam,
                                        fontSize = 20.sp,
                                        modifier = Modifier.width(150.dp),
-                                       textAlign = TextAlign.Center
+                                       textAlign = TextAlign.Center,
+                                       color = Color.White
                                    )
                                    Text(
                                        text = result.redTow,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                        fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -494,7 +534,8 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                }
@@ -513,12 +554,13 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                    Text(
                                        text = result.malekiyatOne,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -528,11 +570,12 @@ fun Forecast(
                                        fontFamily = shabnam,
                                        fontSize = 20.sp,
                                        modifier = Modifier.width(150.dp),
-                                       textAlign = TextAlign.Center
+                                       textAlign = TextAlign.Center,
+                                       color = Color.White
                                    )
                                    Text(
                                        text = result.malekiyatTow,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -546,7 +589,8 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                }
@@ -565,12 +609,13 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                    Text(
                                        text = result.cornerOne,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -580,11 +625,12 @@ fun Forecast(
                                        fontFamily = shabnam,
                                        fontSize = 20.sp,
                                        modifier = Modifier.width(150.dp),
-                                       textAlign = TextAlign.Center
+                                       textAlign = TextAlign.Center,
+                                       color = Color.White
                                    )
                                    Text(
                                        text = result.cornerTow,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -598,7 +644,8 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                }
@@ -617,12 +664,13 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                    Text(
                                        text = result.khataOne,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -632,11 +680,12 @@ fun Forecast(
                                        fontFamily = shabnam,
                                        fontSize = 20.sp,
                                        modifier = Modifier.width(150.dp),
-                                       textAlign = TextAlign.Center
+                                       textAlign = TextAlign.Center,
+                                       color = Color.White
                                    )
                                    Text(
                                        text = result.khataTow,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -650,7 +699,8 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                }
@@ -669,12 +719,13 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                    Text(
                                        text = result.afsaideOne,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -684,11 +735,12 @@ fun Forecast(
                                        fontFamily = shabnam,
                                        fontSize = 20.sp,
                                        modifier = Modifier.width(150.dp),
-                                       textAlign = TextAlign.Center
+                                       textAlign = TextAlign.Center,
+                                       color = Color.White
                                    )
                                    Text(
                                        text = result.afsaideTow,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -702,7 +754,8 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                }
@@ -721,12 +774,13 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
                                        ),
                                    )
                                    Text(
                                        text = result.shooteOne,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -736,11 +790,12 @@ fun Forecast(
                                        fontFamily = shabnam,
                                        fontSize = 20.sp,
                                        modifier = Modifier.width(150.dp),
-                                       textAlign = TextAlign.Center
+                                       textAlign = TextAlign.Center,
+                                       color = Color.White
                                    )
                                    Text(
                                        text = result.shooteTow,
-                                       fontFamily = shabnam, fontSize = 16.sp,
+                                       fontSize = 16.sp,
                                        textAlign = TextAlign.Center,
                                        color = md_theme_light_onPrimaryContainer,
                                        fontWeight = FontWeight.Bold
@@ -754,7 +809,9 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
-                                           textAlign = TextAlign.Center
+                                           textAlign = TextAlign.Center,
+                                           color = md_theme_light_onSecondary,
+
                                        ),
                                    )
                                }
@@ -786,13 +843,13 @@ fun Forecast(
                                        .fillMaxWidth()
                                        .padding(10.dp),
                                    colors = ButtonDefaults.buttonColors(
-                                       backgroundColor = md_theme_light_onPrimaryContainer
+                                       backgroundColor =md_theme_light_onSecondary,
                                    )
                                ) {
                                    Text(
                                        text = "ثبت پیش بینی", fontFamily = shabnam,
                                        fontSize = 18.sp,
-                                       color = Color.White
+                                       fontWeight = FontWeight.Bold
                                    )
                                }
                            }

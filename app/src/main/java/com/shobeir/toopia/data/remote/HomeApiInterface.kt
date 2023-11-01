@@ -2,6 +2,7 @@ package com.shobeir.toopia.data.remote
 
 import com.shobeir.toopia.data.model.Data
 import com.shobeir.toopia.data.model.ModelPish
+import com.shobeir.toopia.data.model.ModelTeam
 import com.shobeir.toopia.data.model.ResponseResult
 import com.shobeir.toopia.data.model.Slider
 import retrofit2.Response
@@ -13,6 +14,9 @@ interface HomeApiInterface {
 
     @GET("get-result.php")
     suspend fun getResult() : Response<ResponseResult<ModelPish>>
+
+    @GET("get-team.php")
+    suspend fun getTeam() : Response<ResponseResult<ModelTeam>>
 
     @FormUrlEncoded
     @POST("register.php")

@@ -2,12 +2,19 @@ package com.shobeir.toopia.repository
 
 import com.shobeir.toopia.data.model.Data
 import com.shobeir.toopia.data.model.ModelPish
+import com.shobeir.toopia.data.model.ModelTeam
+import com.shobeir.toopia.data.model.Slider
 import com.shobeir.toopia.data.remote.BaseApiResponse
 import com.shobeir.toopia.data.remote.HomeApiInterface
 import com.shobeir.toopia.data.remote.NetworkResult
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val api: HomeApiInterface) : BaseApiResponse() {
+
+    suspend fun getSlider(): NetworkResult<List<Slider>> =
+        safeApiCall {
+            api.getSlider()
+        }
 
     suspend fun sendSms(phone: String, code: String): NetworkResult<Data> =
         safeApiCall {
@@ -27,6 +34,10 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
     suspend fun getResult(): NetworkResult<ModelPish> =
         safeApiCall {
             api.getResult()
+        }
+    suspend fun getTeam(): NetworkResult<ModelTeam> =
+        safeApiCall {
+            api.getTeam()
         }
 
 
