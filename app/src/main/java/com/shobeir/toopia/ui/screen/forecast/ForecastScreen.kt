@@ -199,57 +199,7 @@ fun Forecast(
                    mutableIntStateOf(120)
                }
 
-                LaunchedEffect(key1 = Unit){
-                    delay(1500)
-                    if (it.goleOne == resultPlayItem!!.goleOne){
-                        scoreUser += 10
-                    }
-                    if (it.goleTow == resultPlayItem!!.goleTow){
-                        scoreUser += 10
-                    }
-                    if (it.yellowOne == resultPlayItem!!.yellowOne){
-                        scoreUser += 10
-                    }
-                    if (it.yellowTow == resultPlayItem!!.yellowTow){
-                        scoreUser += 10
-                    }
-                    if (it.redOne == resultPlayItem!!.redOne){
-                        scoreUser += 10
-                    }
-                    if (it.redTow == resultPlayItem!!.redTow){
-                        scoreUser += 10
-                    }
-                    if (it.malekiyatOne == resultPlayItem!!.malekiyatOne){
-                        scoreUser += 10
-                    }
-                    if (it.malekiyatTow == resultPlayItem!!.malekiyatTow){
-                        scoreUser += 10
-                    }
-                    if (it.cornerOne == resultPlayItem!!.cornerOne){
-                        scoreUser += 10
-                    }
-                    if (it.cornerTow == resultPlayItem!!.cornerTow){
-                        scoreUser += 10
-                    }
-                    if (it.khataOne == resultPlayItem!!.khataOne){
-                        scoreUser += 10
-                    }
-                    if (it.khataTow == resultPlayItem!!.khataTow){
-                        scoreUser += 10
-                    }
-                    if (it.afsaideOne == resultPlayItem!!.afsaideOne){
-                        scoreUser += 10
-                    }
-                    if (it.afsaideTow == resultPlayItem!!.afsaideTow){
-                        scoreUser += 10
-                    }
-                    if (it.shooteOne == resultPlayItem!!.shooteOne){
-                        scoreUser += 10
-                    }
-                    if (it.shooteTow == resultPlayItem!!.shooteTow){
-                        scoreUser += 10
-                    }
-                }
+
 
                LaunchedEffect(key1 = Unit) {
 //                   while (timeLeft > 0) {
@@ -341,6 +291,57 @@ fun Forecast(
                        }
                    }
                    resultPlayItem?.let {result->
+                       LaunchedEffect(key1 = Unit){
+                           delay(1500)
+                           if (it.goleOne == result.goleOne){
+                               scoreUser += 10
+                           }
+                           if (it.goleTow == result.goleTow){
+                               scoreUser += 10
+                           }
+                           if (it.yellowOne == result.yellowOne){
+                               scoreUser += 10
+                           }
+                           if (it.yellowTow == result.yellowTow){
+                               scoreUser += 10
+                           }
+                           if (it.redOne == result.redOne){
+                               scoreUser += 10
+                           }
+                           if (it.redTow == result.redTow){
+                               scoreUser += 10
+                           }
+                           if (it.malekiyatOne == result.malekiyatOne){
+                               scoreUser += 10
+                           }
+                           if (it.malekiyatTow == result.malekiyatTow){
+                               scoreUser += 10
+                           }
+                           if (it.cornerOne == result.cornerOne){
+                               scoreUser += 10
+                           }
+                           if (it.cornerTow == result.cornerTow){
+                               scoreUser += 10
+                           }
+                           if (it.khataOne == result.khataOne){
+                               scoreUser += 10
+                           }
+                           if (it.khataTow == result.khataTow){
+                               scoreUser += 10
+                           }
+                           if (it.afsaideOne == result.afsaideOne){
+                               scoreUser += 10
+                           }
+                           if (it.afsaideTow == result.afsaideTow){
+                               scoreUser += 10
+                           }
+                           if (it.shooteOne == result.shooteOne){
+                               scoreUser += 10
+                           }
+                           if (it.shooteTow == result.shooteTow){
+                               scoreUser += 10
+                           }
+                       }
                       Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                                Row(
                                    modifier = Modifier.fillMaxWidth(),
