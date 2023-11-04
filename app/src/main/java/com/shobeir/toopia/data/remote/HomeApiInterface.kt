@@ -5,6 +5,7 @@ import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.model.ModelTeam
 import com.shobeir.toopia.data.model.ResponseResult
 import com.shobeir.toopia.data.model.Slider
+import com.shobeir.toopia.data.model.User
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -15,12 +16,20 @@ interface HomeApiInterface {
     @GET("get-result.php")
     suspend fun getResult() : Response<ResponseResult<ModelPish>>
 
+    @GET("get-winner.php")
+    suspend fun getWinner() : Response<ResponseResult<User>>
+
     @GET("get-team.php")
     suspend fun getTeam() : Response<ResponseResult<ModelTeam>>
 
     @FormUrlEncoded
     @POST("register.php")
     suspend fun register(@Field("phone") phone:String, @Field("code") code:String):Response<ResponseResult<Data>>
+
+    @FormUrlEncoded
+    @POST("set-score.php")
+    suspend fun setScore(@Field("phone") phone:String, @Field("score") score:String):Response<ResponseResult<Data>>
+
 
     @FormUrlEncoded
     @POST("add-user.php")

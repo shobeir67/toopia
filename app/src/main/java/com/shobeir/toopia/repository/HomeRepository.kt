@@ -4,6 +4,7 @@ import com.shobeir.toopia.data.model.Data
 import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.model.ModelTeam
 import com.shobeir.toopia.data.model.Slider
+import com.shobeir.toopia.data.model.User
 import com.shobeir.toopia.data.remote.BaseApiResponse
 import com.shobeir.toopia.data.remote.HomeApiInterface
 import com.shobeir.toopia.data.remote.NetworkResult
@@ -16,9 +17,19 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
             api.getSlider()
         }
 
+    suspend fun getWinner(): NetworkResult<User> =
+        safeApiCall {
+            api.getWinner()
+        }
+
     suspend fun sendSms(phone: String, code: String): NetworkResult<Data> =
         safeApiCall {
             api.register(phone = phone, code = code)
+        }
+
+    suspend fun setScore(phone: String, score: String): NetworkResult<Data> =
+        safeApiCall {
+            api.setScore(phone = phone, score = score)
         }
 
     suspend fun addUser(phone: String,): NetworkResult<Data> =

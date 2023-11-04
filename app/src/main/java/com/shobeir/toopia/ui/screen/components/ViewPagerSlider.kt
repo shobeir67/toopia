@@ -26,6 +26,7 @@ import coil.request.ImageRequest
 import com.google.accompanist.pager.*
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.model.Slider
+import com.shobeir.toopia.navigation.Screen
 import com.shobeir.toopia.ui.theme.font_standard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
@@ -94,7 +95,7 @@ fun Banner(newKids: Slider,navController: NavHostController,sharedViewModel: Sha
                     .fillMaxWidth()
                     .height(220.dp)
                     .clickable {
-
+                        navController.navigate(Screen.WebView.route+ "?url=${newKids.url}")
                     }
             ) {
                 AsyncImage(

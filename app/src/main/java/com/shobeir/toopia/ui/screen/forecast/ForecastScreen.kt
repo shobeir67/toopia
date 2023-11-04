@@ -135,6 +135,8 @@ fun Forecast(
             is NetworkResult.Loading -> {
                 loading = true
             }
+
+            else -> {}
         }
     }
 
@@ -154,6 +156,8 @@ fun Forecast(
             is NetworkResult.Loading -> {
                 loading = true
             }
+
+            else -> {}
         }
     }
 
@@ -176,6 +180,8 @@ fun Forecast(
             is NetworkResult.Loading -> {
 
             }
+
+            else -> {}
         }
     }
 
@@ -352,6 +358,7 @@ fun Forecast(
                            if (it.shooteTow == result.shooteTow){
                                scoreUser += 10
                            }
+                           viewModel.setScore(phone = phoneUser,score = scoreUser.toString())
                        }
                       Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                           Row(

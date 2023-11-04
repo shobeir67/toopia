@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
@@ -38,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.shobeir.toopia.R
@@ -46,6 +48,7 @@ import com.shobeir.toopia.data.datastore.PreferenceHelper
 import com.shobeir.toopia.data.datastore.StoreViewModel
 import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.model.ModelTeam
+import com.shobeir.toopia.data.model.User
 import com.shobeir.toopia.data.remote.NetworkResult
 import com.shobeir.toopia.navigation.Screen
 import com.shobeir.toopia.ui.screen.components.TopSliderSection
@@ -82,153 +85,252 @@ fun HomeScreen(
             phoneUser = it
         }
     }
-    scope.launch {
-        delay(100)
-        loading = false
-    }
+    if (phoneUser != "null") {
+        Home(
+            navController = navController,
+            sharedViewModel = sharedViewModel,
+            storeViewModel = storeViewModel
+        )
+    } else {
+        when (loginViewModel.screenState) {
+            HomeScreenState.LOGIN_STATE -> {
+                LoginScreen(sharedViewModel = sharedViewModel)
+            }
 
-    if (loading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-    }else {
-        if (phoneUser != "null"){
-            Home(navController = navController, sharedViewModel = sharedViewModel, storeViewModel = storeViewModel)
-        }else{
-            when (loginViewModel.screenState) {
-                HomeScreenState.LOGIN_STATE -> {
-                    LoginScreen(sharedViewModel = sharedViewModel)
-                }
-                HomeScreenState.HOME_STATE -> {
-                    Home(navController = navController, sharedViewModel = sharedViewModel,storeViewModel = storeViewModel)
-                }
-                HomeScreenState.REGISTER_STATE -> {
-                    RegisterScreen(sharedViewModel = sharedViewModel)
-                }
+            HomeScreenState.HOME_STATE -> {
+                Home(
+                    navController = navController,
+                    sharedViewModel = sharedViewModel,
+                    storeViewModel = storeViewModel
+                )
+            }
+
+            HomeScreenState.REGISTER_STATE -> {
+                RegisterScreen(sharedViewModel = sharedViewModel)
             }
         }
     }
-
 }
 
 
 @Composable
-fun Home(navController: NavHostController,
-         sharedViewModel: SharedViewModel,
-         storeViewModel: StoreViewModel,
-         viewModel: HomeViewModel= hiltViewModel())
-{
-    LaunchedEffect(key1 =Unit){
-       viewModel.getAllData()
+fun Home(
+    navController: NavHostController,
+    sharedViewModel: SharedViewModel,
+    storeViewModel: StoreViewModel,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getAllData()
     }
     var teamGame by remember {
         mutableStateOf<ModelTeam?>(null)
     }
     val scope = rememberCoroutineScope()
 
-
     val teamResponse by viewModel.teamResponse.collectAsState()
-    LaunchedEffect(key1 = teamResponse){
-        when(teamResponse){
+    LaunchedEffect(key1 = teamResponse) {
+        when (teamResponse) {
             is NetworkResult.Success -> {
-                teamGame= teamResponse.data ?: teamGame
+                teamGame = teamResponse.data
             }
+
             is NetworkResult.Error -> {
 
                 Log.e("3636", "CartAddressSection error : ${teamResponse.message}")
             }
+
+            is NetworkResult.Loading -> {
+
+            }
+        }
+    }
+    var winnerItem by remember {
+        mutableStateOf<User?>(null)
+    }
+
+    val winner by viewModel.winnerResponse.collectAsState()
+    LaunchedEffect(key1 = winner) {
+        when (winner) {
+            is NetworkResult.Success -> {
+                winnerItem = winner.data
+            }
+
+            is NetworkResult.Error -> {
+
+                Log.e("3636", "CartAddressSection error : ${winner.message}")
+            }
+
             is NetworkResult.Loading -> {
 
             }
         }
     }
 
-   Column(
-       Modifier
-           .fillMaxSize()
-           .background(md_theme_light_tertiary)
-           .padding(10.dp),
-           horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            TopSliderSection(navController = navController, sharedViewModel =sharedViewModel)
-            Spacer(modifier = Modifier.height(13.dp))
-            teamGame?.let {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(md_theme_light_tertiary)
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TopSliderSection(navController = navController, sharedViewModel = sharedViewModel)
+        Spacer(modifier = Modifier.height(13.dp))
+        teamGame?.let {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .background(md_theme_light_secondary)
+                        .padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                )
+                {
+                    Text(
+                        text = it.date_game,
+                        color = Color.White,
+                        fontFamily = shabnam,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(13.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            AsyncImage(
+                                model = BASE_URL + it.logoOne, contentDescription = "",
+                                modifier = Modifier.size(60.dp)
+                            )
+                            Text(
+                                text = it.teamOne,
+                                color = Color.White,
+                                fontFamily = shabnam,
+                                fontSize = 18.sp
+                            )
+                        }
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            AsyncImage(
+                                model = BASE_URL + it.logoTow, contentDescription = "",
+                                modifier = Modifier.size(60.dp)
+                            )
+                            Text(
+                                text = it.teamTow,
+                                color = Color.White,
+                                fontFamily = shabnam,
+                                fontSize = 18.sp
+
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(13.dp))
+                    if (teamGame!!.status == "1") {
+                        Button(
+                            onClick = {
+                                sharedViewModel.addTeam(teamGame!!)
+                                navController.navigate(Screen.Forecast.route)
+                            }, colors = ButtonDefaults.buttonColors(
+                                backgroundColor = md_theme_light_onSecondary
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .height(40.dp)
+                        ) {
+                            Text(
+                                text = "آمار مسابقه", fontFamily = shabnam,
+                                fontSize = 18.sp, fontWeight = FontWeight.Bold
+                            )
+                        }
+                    } else {
+                        Button(
+                            onClick = {
+                                sharedViewModel.addTeam(teamGame!!)
+                                navController.navigate(Screen.Forecast.route)
+                            }, colors = ButtonDefaults.buttonColors(
+                                backgroundColor = md_theme_light_onSecondary
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .height(40.dp)
+                        ) {
+                            Text(
+                                text = "پیش بینی کنید", fontFamily = shabnam,
+                                fontSize = 18.sp, fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+
+                }
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(15.dp))
+        winnerItem?.let {
+            if (teamGame!!.status == "1") {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth(),
                 ) {
-                    Column(
+                    Row(
                         modifier = Modifier
                             .background(md_theme_light_secondary)
                             .padding(10.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
                     )
                     {
-                        Text(
-                            text = it.date_game,
-                            color = Color.White,
-                            fontFamily = shabnam,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
+                        Image(
+                            painter = painterResource(id = R.drawable.firstplace),
+                            contentDescription = "",
+                            modifier = Modifier.size(90.dp)
                         )
-                        Spacer(modifier = Modifier.height(13.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            verticalAlignment = Alignment.CenterVertically
+                        Spacer(modifier = Modifier.width(40.dp))
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                AsyncImage(model = BASE_URL+it.logoOne, contentDescription = "",
-                                    modifier = Modifier.size(60.dp))
-                                Text(
-                                    text = it.teamOne,
-                                    color = Color.White,
-                                    fontFamily = shabnam,
-                                    fontSize = 18.sp
-                                )
-                            }
-
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                AsyncImage(model = BASE_URL+it.logoTow, contentDescription = "",
-                                    modifier = Modifier.size(60.dp))
-                                Text(
-                                    text = it.teamTow,
-                                    color = Color.White,
-                                    fontFamily = shabnam,
-                                    fontSize = 18.sp
-
-                                )
-                            }
+                            Text(
+                                text = "برنده این بازی",
+                                color = Color.White,
+                                fontFamily = shabnam,
+                                fontSize = 18.sp,
+                            )
+                            Spacer(modifier = Modifier.height(13.dp))
+                            Text(
+                                text = "${it.phone.substring(7, 11)}***${it.phone.substring(0, 4)}",
+                                color = Color.White,
+                                fontFamily = shabnam,
+                                fontSize = 18.sp,
+                            )
+                            Text(
+                                text = "امتیاز:${it.score}",
+                                color = Color.White,
+                                fontFamily = shabnam,
+                                fontSize = 18.sp,
+                            )
                         }
-                        Spacer(modifier = Modifier.height(13.dp))
-                        Button(onClick = {
-                            sharedViewModel.addTeam(teamGame!!)
-                            navController.navigate(Screen.Forecast.route) }, colors = ButtonDefaults.buttonColors(
-                                backgroundColor =md_theme_light_onSecondary
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth(0.8f)
-                                .height(40.dp)) {
-                            Text(text = "پیش بینی کنید", fontFamily = shabnam,
-                                fontSize = 18.sp,fontWeight = FontWeight.Bold)
-                        }
-
                     }
 
-                }
-            }
 
-
-            Button(onClick = {
-                scope.launch {
-                    storeViewModel.clearDataStore()
                 }
-            }) {
-                Text(text = "exit")
             }
         }
 
+        Button(onClick = {
+            scope.launch {
+                storeViewModel.clearDataStore()
+            }
+        }) {
+            Text(text = "exit")
+        }
+    }
+
 }
+
 
 
