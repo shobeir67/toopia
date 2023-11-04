@@ -480,6 +480,7 @@ fun Forecast(
                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                        textStyle = LocalTextStyle.current.copy(
                                            fontSize = 16.sp,
+                                           textAlign = TextAlign.Center,
                                            color = md_theme_light_onSecondary,
                                        ),
                                    )
@@ -816,42 +817,60 @@ fun Forecast(
                                    )
                                }
                                Spacer(modifier = Modifier.height(5.dp))
-                               Button(
-                                   onClick = {
-                                       scope.launch {
-                                           viewModel.setPish(
-                                               phoneUser,
-                                               textGoleOne,
-                                               textGoleTow,
-                                               textYellowOne,
-                                               textYellowTow,
-                                               textRedOne,
-                                               textRedTow,
-                                               textMalekiyatOne,
-                                               textMalekiyatTow,
-                                               textCornerOne,
-                                               textCornerTow,
-                                               textKhataOne,
-                                               textKhataTow,
-                                               textAfsaideOne,
-                                               textAfsaideTow,
-                                               textShooteOne,
-                                               textShooteTow,
-                                           )
-                                       }
-                                   }, modifier = Modifier
-                                       .fillMaxWidth()
-                                       .padding(10.dp),
-                                   colors = ButtonDefaults.buttonColors(
-                                       backgroundColor =md_theme_light_onSecondary,
-                                   )
-                               ) {
-                                   Text(
-                                       text = "ثبت پیش بینی", fontFamily = shabnam,
-                                       fontSize = 18.sp,
-                                       fontWeight = FontWeight.Bold
-                                   )
-                               }
+                          if (pishGame!!.status == "0"){
+                              Button(
+                                  onClick = {
+                                      scope.launch {
+                                          viewModel.setPish(
+                                              phoneUser,
+                                              textGoleOne,
+                                              textGoleTow,
+                                              textYellowOne,
+                                              textYellowTow,
+                                              textRedOne,
+                                              textRedTow,
+                                              textMalekiyatOne,
+                                              textMalekiyatTow,
+                                              textCornerOne,
+                                              textCornerTow,
+                                              textKhataOne,
+                                              textKhataTow,
+                                              textAfsaideOne,
+                                              textAfsaideTow,
+                                              textShooteOne,
+                                              textShooteTow,
+                                          )
+                                      }
+                                  }, modifier = Modifier
+                                      .fillMaxWidth()
+                                      .padding(10.dp),
+                                  colors = ButtonDefaults.buttonColors(
+                                      backgroundColor =md_theme_light_onSecondary,
+                                  )
+                              ) {
+                                  Text(
+                                      text = "ثبت پیش بینی", fontFamily = shabnam,
+                                      fontSize = 18.sp,
+                                      fontWeight = FontWeight.Bold
+                                  )
+                              }
+                          }else{
+                              Button(
+                                  onClick = {}, modifier = Modifier
+                                      .fillMaxWidth()
+                                      .padding(10.dp),
+                                  colors = ButtonDefaults.buttonColors(
+                                      backgroundColor =md_theme_light_onSecondary,
+                                  )
+                              ) {
+                                  Text(
+                                      text = "پایان مهلت پیش بینی", fontFamily = shabnam,
+                                      fontSize = 18.sp,
+                                      fontWeight = FontWeight.Bold
+                                  )
+                              }
+                          }
+
                            }
                    }
          }

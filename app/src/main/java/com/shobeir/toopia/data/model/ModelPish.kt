@@ -18,5 +18,6 @@ data class ModelPish(
     val afsaideOne:String,
     val afsaideTow:String,
     val shooteOne:String,
-    val shooteTow:String
+    val shooteTow:String,
+    val status:String
 )
