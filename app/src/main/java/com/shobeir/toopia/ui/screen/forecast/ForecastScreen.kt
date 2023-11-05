@@ -216,18 +216,7 @@ fun Forecast(
         }
                val pdate = PersianDate()
                val pFormatter = PersianDateFormat().format(pdate)
-               var timeLeft by remember {
-                   mutableIntStateOf(120)
-               }
 
-
-
-               LaunchedEffect(key1 = Unit) {
-//                   while (timeLeft > 0) {
-//                       delay(1000L)
-//                       timeLeft--
-//                   }
-                 }
                Column(
                    modifier = Modifier
                        .fillMaxSize()

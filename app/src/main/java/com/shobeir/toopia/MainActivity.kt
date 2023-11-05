@@ -1,6 +1,7 @@
 package com.shobeir.toopia
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.shobeir.toopia.cheknet.NetworkConnection
 import com.shobeir.toopia.navigation.SetupNavGraph
 import com.shobeir.toopia.ui.screen.components.AnimatedCounter
 import com.shobeir.toopia.ui.screen.home.HomeScreen
@@ -35,24 +37,17 @@ class MainActivity : ComponentActivity() {
             navController = rememberNavController()
             ToopiaTheme {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+//                val networkConnection= NetworkConnection(applicationContext)
+//                    networkConnection.observe(this) { isConnected ->
+//                        if (isConnected) {
+//                            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+//
+//                        } else {
+//                            Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
                 SetupNavGraph(navController = navController)
                }
-//                Column(
-//                    modifier = Modifier.fillMaxSize(),
-//                    verticalArrangement = Arrangement.Center,
-//                    horizontalAlignment = Alignment.CenterHorizontally
-//                ) {
-//                    var count by remember {
-//                        mutableStateOf(0)
-//                    }
-//                    AnimatedCounter(
-//                        count = count,
-//                        style = MaterialTheme.typography.h1
-//                    )
-//                    Button(onClick = { count++ }) {
-//                        Text(text = "Increment")
-//                    }
-//                }
             }
 
         }

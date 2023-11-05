@@ -52,11 +52,6 @@ fun TopSliderSection(
             error=true
         }
     }
-    if (error){
-        Box(modifier = Modifier.fillMaxSize()){
-            Text(text = "خطا در دریافت اطلاعات...")
-        }
-    }
 
     if (loading) {
         val config = LocalConfiguration.current

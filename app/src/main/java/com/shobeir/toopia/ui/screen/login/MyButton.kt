@@ -10,9 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shobeir.toopia.ui.theme.digikalaRed
+import com.shobeir.toopia.ui.theme.md_theme_light_onSecondary
 import com.shobeir.toopia.ui.theme.roundedShape
 import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
@@ -24,7 +26,7 @@ fun MyButton(
 ) {
     Button(
         onClick = { onClick() },
-        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.digikalaRed),
+        colors = ButtonDefaults.buttonColors(backgroundColor = md_theme_light_onSecondary),
         modifier = Modifier
             .fillMaxWidth()
             .height(65.dp)
@@ -37,9 +39,9 @@ fun MyButton(
     ) {
         Text(
             text = text,
-            color = Color.White,
             fontFamily = shabnam,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
         )
 
 

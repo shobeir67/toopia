@@ -1,12 +1,14 @@
 package com.shobeir.toopia.ui.screen.login
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -16,9 +18,11 @@ import com.shobeir.toopia.R
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.datastore.StoreViewModel
 import com.shobeir.toopia.ui.theme.md_theme_light_outline
+import com.shobeir.toopia.ui.theme.md_theme_light_tertiary
 import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
 import com.shobeir.toopia.viewmodel.LoginViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun RegisterScreen(
@@ -32,9 +36,21 @@ fun RegisterScreen(
     var textCode by remember {
         mutableStateOf("")
     }
+    var timeLeft by remember {
+        mutableIntStateOf(59)
+    }
+    LaunchedEffect(key1 = Unit) {
+                   while (timeLeft > 0) {
+                       delay(1000L)
+                       timeLeft--
+                   }
+    }
+
+
     Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize().background(md_theme_light_tertiary),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
 
         Text(
@@ -44,7 +60,7 @@ fun RegisterScreen(
             ),
             fontFamily = shabnam,
             fontSize = 20.sp,
-            color = md_theme_light_outline,
+            color = Color.White,
             fontWeight = FontWeight.Bold
         )
 
@@ -70,6 +86,29 @@ fun RegisterScreen(
                     ).show()
                 }
        }
+        if (timeLeft == 0){
+            Text(
+                text = "ارسال مجدد",
+                modifier = Modifier.padding(
+                    horizontal = MaterialTheme.spacing.semiLarge
+                ),
+                fontFamily = shabnam,
+                fontSize = 16.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
+        }else{
+            Text(
+                text = "۰۰:$timeLeft",
+                modifier = Modifier.padding(
+                    horizontal = MaterialTheme.spacing.semiLarge
+                ),
+                fontFamily = shabnam,
+                fontSize = 18.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
     }
 
