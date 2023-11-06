@@ -23,15 +23,12 @@ class HomeViewModel@Inject constructor(private val repository: HomeRepository) :
 
     fun getAllData(){
         viewModelScope.launch {
-
             launch {
                 slider.emit(repository.getSlider())
             }
-
             launch {
                 teamResponse.emit(repository.getTeam())
             }
-
             launch {
                 winnerResponse.emit(repository.getWinner())
             }

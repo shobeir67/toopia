@@ -36,7 +36,9 @@ fun LoginScreen(
     val context = LocalContext.current
     loginViewModel.codeState = random().toString()
     LazyColumn(
-        modifier = Modifier.fillMaxSize().background(md_theme_light_tertiary),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(md_theme_light_tertiary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item { Spacer(modifier = Modifier.height(MaterialTheme.spacing.large)) }
@@ -44,7 +46,7 @@ fun LoginScreen(
             Image(
                 modifier = Modifier
                     .size(200.dp),
-                painter = painterResource(id = R.drawable.digi_smile),
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "",
             )
         }
@@ -77,7 +79,7 @@ fun LoginScreen(
                 MyButton(text = stringResource(id = R.string.digikala_entry)) {
                     if (isValidPhoneNumber(loginViewModel.inputPhoneState)
                     ) {
-                        loginViewModel.sendSms()
+                        //loginViewModel.sendSms()
                         sharedViewModel.addUserReg(UserRegister(phone = loginViewModel.inputPhoneState, code = loginViewModel.codeState))
                         loginViewModel.screenState = HomeScreenState.REGISTER_STATE
                     } else {
@@ -91,6 +93,18 @@ fun LoginScreen(
                 }
             }
 
+        }
+        item { Spacer(modifier = Modifier.height(200.dp)) }
+        item {
+            Text(
+                modifier = Modifier.padding(
+                    horizontal = MaterialTheme.spacing.semiLarge),
+                fontFamily = shabnam,
+                fontSize = 14.sp,
+                text ="www.shobeirshahriari.ir",
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
         }
 
     }

@@ -293,7 +293,7 @@ fun Forecast(
                                .fillMaxSize(),
                            contentAlignment = Alignment.Center
                        ) {
-                          Loading3Dots(isDark = true)
+                          Loading3Dots(isDark = false)
                        }
                    }
                    resultPlayItem?.let {result->

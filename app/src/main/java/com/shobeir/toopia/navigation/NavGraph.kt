@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.ui.screen.components.WebPageScreen
 import com.shobeir.toopia.ui.screen.forecast.ForecastScreen
@@ -37,7 +38,7 @@ fun SetupNavGraph(
         }
 
         composable(route=Screen.Code.route){
-            RegisterScreen(sharedViewModel = sharedViewModel)
+            RegisterScreen(sharedViewModel = sharedViewModel,navController = navController)
         }
 
         composable(

@@ -71,7 +71,6 @@ fun ViewPagerSlider(
                     )
                 }
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp, vertical = 5.dp)
             ) {
                 val newKids = images[page]
                 Banner(newKids=newKids,navController=navController, sharedViewModel = sharedViewModel)
@@ -108,29 +107,6 @@ fun Banner(newKids: Slider,navController: NavHostController,sharedViewModel: Sha
                     modifier = Modifier
                         .fillMaxSize()
                 )
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomStart)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    Color.Black,
-                                    )
-                            )
-                        )
-                ) {
-                    Text(text = "newKids.title",
-                        style = MaterialTheme.typography.headlineSmall.copy(fontFamily = font_standard,
-                            fontSize = 16.sp
-                        ),
-                        color = Color.White,
-                        modifier = Modifier.padding(8.dp)
-                    )
-                    Spacer(modifier = Modifier.size(8.dp))
-                }
             }
-
 }
 
