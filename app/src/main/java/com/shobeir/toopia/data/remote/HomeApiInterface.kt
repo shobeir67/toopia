@@ -1,5 +1,6 @@
 package com.shobeir.toopia.data.remote
 
+import com.shobeir.toopia.data.model.City
 import com.shobeir.toopia.data.model.Data
 import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.model.ModelTeam
@@ -20,6 +21,9 @@ interface HomeApiInterface {
 
     @GET("get-all-news.php")
     suspend fun getAllNews() : Response<ResponseResult<List<News>>>
+
+    @GET("get-city.php")
+    suspend fun getCity() : Response<ResponseResult<List<City>>>
 
     @GET("get-all-shoping.php")
     suspend fun getAllShoping() : Response<ResponseResult<List<Shoping>>>

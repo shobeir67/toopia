@@ -4,9 +4,7 @@ package com.shobeir.toopia.ui.screen.shop
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -23,29 +21,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import com.shobeir.toopia.ui.theme.roundedShape
 import com.shobeir.toopia.ui.theme.spacing
-import com.shobeir.toopia.R
-import com.shobeir.toopia.data.model.ModelTeam
 import com.shobeir.toopia.data.model.Shoping
 import com.shobeir.toopia.data.remote.NetworkResult
-import com.shobeir.toopia.ui.theme.DigikalaLightRedText
 import com.shobeir.toopia.ui.theme.shabnam
-import com.shobeir.toopia.utils.Constants
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ShopScreen(
-    viewModel: shopViewModel = hiltViewModel()
+    viewModel: ShopViewModel = hiltViewModel()
 ) {
     var shopingList by remember {
         mutableStateOf<List<Shoping>>(emptyList())

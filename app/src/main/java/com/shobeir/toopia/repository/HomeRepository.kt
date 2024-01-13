@@ -1,5 +1,6 @@
 package com.shobeir.toopia.repository
 
+import com.shobeir.toopia.data.model.City
 import com.shobeir.toopia.data.model.Data
 import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.model.ModelTeam
@@ -23,6 +24,11 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
     suspend fun getAllNews(): NetworkResult<List<News>> =
         safeApiCall {
             api.getAllNews()
+        }
+
+    suspend fun getCity(): NetworkResult<List<City>> =
+        safeApiCall {
+            api.getCity()
         }
 
     suspend fun getAllNews(code: String): NetworkResult<List<ImagePost>> =
