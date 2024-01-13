@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shobeir.toopia.data.model.Data
 import com.shobeir.toopia.data.model.ModelPish
+import com.shobeir.toopia.data.model.User
 import com.shobeir.toopia.data.remote.NetworkResult
 import com.shobeir.toopia.repository.HomeRepository
 import com.shobeir.toopia.ui.screen.login.HomeScreenState
@@ -23,6 +24,7 @@ class PishViewModel @Inject constructor(private val repository: HomeRepository) 
     val setScore = MutableStateFlow<NetworkResult<Data>>(NetworkResult.Loading())
     val pishResponse = MutableStateFlow<NetworkResult<ModelPish>>(NetworkResult.Loading())
     val resultResponse = MutableStateFlow<NetworkResult<ModelPish>>(NetworkResult.Loading())
+    val user = MutableStateFlow<NetworkResult<User>>(NetworkResult.Loading())
 
    suspend fun setPish(
         phone: String,
@@ -73,6 +75,12 @@ class PishViewModel @Inject constructor(private val repository: HomeRepository) 
             pishResponse.emit(repository.getPishUser(phone))
         }
      }
+
+    suspend fun getUser(phone: String){
+        viewModelScope.launch {
+            user.emit(repository.getPriceUser(phone))
+        }
+    }
 
     fun getResultPlay(){
         viewModelScope.launch {

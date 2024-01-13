@@ -56,25 +56,12 @@ fun TopSliderSection(
         }
         is NetworkResult.Loading -> {
             loading = true
-            error=true
+            error=false
         }
 
         else -> {}
     }
-    val connection by connectivityState()
-    if(connection != ConnectionState.Available || error){
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "اینترنت دستگاه خود را بررسی کنید!", fontFamily = shabnam,
-                    fontSize = 18.sp, color = Color.White)
-                Spacer(modifier = Modifier.height(15.dp))
-                Button(onClick = { viewModel.getAllData() }) {
-                    Text(text = "تلاش مجدد", fontFamily = shabnam,
-                        fontSize = 18.sp, color = Color.White)
-                }
-            }
-        }
-    }else{
+
         if (loading) {
             val config = LocalConfiguration.current
             OurLoading(config.screenHeightDp.dp, true)
@@ -84,6 +71,5 @@ fun TopSliderSection(
                     sharedViewModel = sharedViewModel)
             }
         }
-    }
 
 }

@@ -20,8 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.shobeir.toopia.R
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.model.UserRegister
-import com.shobeir.toopia.ui.theme.md_theme_light_outline
-import com.shobeir.toopia.ui.theme.md_theme_light_tertiary
+import com.shobeir.toopia.ui.theme.md_theme_light_scrim
 import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
 import com.shobeir.toopia.utils.InputValidation.isValidPhoneNumber
@@ -38,7 +37,7 @@ fun LoginScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(md_theme_light_tertiary),
+            .background(md_theme_light_scrim),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item { Spacer(modifier = Modifier.height(MaterialTheme.spacing.large)) }
@@ -79,7 +78,7 @@ fun LoginScreen(
                 MyButton(text = stringResource(id = R.string.digikala_entry)) {
                     if (isValidPhoneNumber(loginViewModel.inputPhoneState)
                     ) {
-                        //loginViewModel.sendSms()
+                        loginViewModel.sendSms()
                         sharedViewModel.addUserReg(UserRegister(phone = loginViewModel.inputPhoneState, code = loginViewModel.codeState))
                         loginViewModel.screenState = HomeScreenState.REGISTER_STATE
                     } else {

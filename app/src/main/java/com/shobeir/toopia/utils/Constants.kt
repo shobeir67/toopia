@@ -12,4 +12,7 @@ object Constants {
     const val TIMEOUT_IN_SECOND: Long = 60
 
     var USER_PHONE = "USER_PHONE"
+
+   // const val ZARINPAL_MERCHANT_ID = "ce7101df-cb08-41f8-a20b-b21995173d8f"
+    const val ZARINPAL_MERCHANT_ID = "cea3d8f6-ed7b-4247-8be5-b45f1b1557d4"
 }

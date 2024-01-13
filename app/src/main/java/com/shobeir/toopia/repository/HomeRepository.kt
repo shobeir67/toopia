@@ -3,11 +3,14 @@ package com.shobeir.toopia.repository
 import com.shobeir.toopia.data.model.Data
 import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.model.ModelTeam
+import com.shobeir.toopia.data.model.News
+import com.shobeir.toopia.data.model.Shoping
 import com.shobeir.toopia.data.model.Slider
 import com.shobeir.toopia.data.model.User
 import com.shobeir.toopia.data.remote.BaseApiResponse
 import com.shobeir.toopia.data.remote.HomeApiInterface
 import com.shobeir.toopia.data.remote.NetworkResult
+import com.shobeir.toopia.ui.screen.news.details.ImagePost
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val api: HomeApiInterface) : BaseApiResponse() {
@@ -15,6 +18,16 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
     suspend fun getSlider(): NetworkResult<List<Slider>> =
         safeApiCall {
             api.getSlider()
+        }
+
+    suspend fun getAllNews(): NetworkResult<List<News>> =
+        safeApiCall {
+            api.getAllNews()
+        }
+
+    suspend fun getAllNews(code: String): NetworkResult<List<ImagePost>> =
+        safeApiCall {
+            api.getAllImageNews(code)
         }
 
     suspend fun getWinner(): NetworkResult<User> =
@@ -42,6 +55,17 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
             api.getPishUser(phone = phone)
         }
 
+    suspend fun getPriceUser(phone: String,): NetworkResult<User> =
+        safeApiCall {
+            api.getUser(phone = phone)
+        }
+
+    suspend fun setPriceUserNobat(phone: String,): NetworkResult<Data> =
+        safeApiCall {
+            api.setPriceUserNobat(phone)
+        }
+
+
     suspend fun getResult(): NetworkResult<ModelPish> =
         safeApiCall {
             api.getResult()
@@ -51,7 +75,10 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
             api.getTeam()
         }
 
-
+    suspend fun getAllShoping(): NetworkResult<List<Shoping>> =
+        safeApiCall {
+            api.getAllShoping()
+        }
 
     suspend fun setPish(
         phone: String,

@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt")
     id ("kotlin-parcelize")
     id ("dagger.hilt.android.plugin")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -102,8 +102,16 @@ dependencies {
 
     // splash screen
     implementation ("androidx.core:core-splashscreen:1.0.1")
+    // Timber
 
+    implementation ("com.jakewharton.timber:timber:5.0.1")
 
+//zarinpal
+    implementation ("com.zarinpal:payment-provider-ktx:0.5.3")
+
+    implementation ("com.push-pole.android:pushpolesdk:1.7.8")
+
+    implementation("com.vanniktech:android-image-cropper:4.3.3")
 
 
     testImplementation("junit:junit:4.13.2")

@@ -7,20 +7,29 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.ui.screen.components.WebPageScreen
-import com.shobeir.toopia.ui.screen.forecast.ForecastScreen
+import com.shobeir.toopia.ui.screen.karbordi.toopia.ForecastScreen
 import com.shobeir.toopia.ui.screen.home.HomeScreen
+import com.shobeir.toopia.ui.screen.karbordi.AppScreen
+import com.shobeir.toopia.ui.screen.karbordi.nobateman.ConfirmPurchaseScreen
+import com.shobeir.toopia.ui.screen.karbordi.nobateman.NobateDehi
+import com.shobeir.toopia.ui.screen.karbordi.nobateman.chaman.ChamanScreen
 import com.shobeir.toopia.ui.screen.login.LoginScreen
 import com.shobeir.toopia.ui.screen.login.RegisterScreen
+import com.shobeir.toopia.ui.screen.news.details.DetailsScreen
+import com.shobeir.toopia.ui.screen.profile.ProfileScreen
+import com.shobeir.toopia.ui.screen.shop.ShopScreen
+import com.shobeir.toopia.ui.screen.karbordi.nobateman.modir.PanelScreen
+import com.shobeir.toopia.ui.screen.karbordi.nobateman.salon.SalonScreen
+import com.shobeir.toopia.ui.screen.karbordi.toopia.ToopiaScreen
+import com.shobeir.toopia.ui.screen.profile.AddStore
 
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
 ) {
     val sharedViewModel: SharedViewModel = viewModel()
-
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route
@@ -54,6 +63,53 @@ fun SetupNavGraph(
                 WebPageScreen(url = url)
             }
         }
+
+        composable(route = Screen.ConfirmPurchase.route) {
+                ConfirmPurchaseScreen(
+                    navController = navController,
+                    phone ="09177651665",
+                )
+        }
+
+        composable(route= Screen.Shop.route){
+            ShopScreen()
+        }
+
+        composable(route= Screen.Karbordi.route){
+            AppScreen(navController=navController)
+        }
+
+        composable(route= Screen.Profile.route){
+            ProfileScreen(navController=navController)
+        }
+
+        composable(route= Screen.NobateMan.route){
+            NobateDehi(navController = navController , sharedViewModel = sharedViewModel)
+        }
+
+        composable(route= Screen.DetailsNews.route){
+           DetailsScreen(sharedViewModel = sharedViewModel,
+               navController = navController)
+        }
+
+        composable(route = Screen.Salon.route) {
+            SalonScreen(navController = navController,viewModel = sharedViewModel)
+        }
+        composable(route = Screen.Chaman.route) {
+            ChamanScreen(navController = navController,viewModel = sharedViewModel)
+        }
+        composable(route = Screen.Panel.route) {
+            PanelScreen()
+        }
+
+        composable(route = Screen.Toopia.route) {
+            ToopiaScreen(navController = navController, sharedViewModel = sharedViewModel)
+        }
+
+        composable(route = Screen.AddStore.route) {
+            AddStore()
+        }
+
 
     }
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shobeir.toopia.ui.theme.CursorColor
@@ -29,9 +27,9 @@ import com.shobeir.toopia.ui.theme.spacing
 fun MyEditText(
     value: String,
     placeholder:String,
-    onValueChange: (it:String) -> Unit
+    onValueChange: (it:String) -> Unit,
+    keyboardOptions : KeyboardOptions=KeyboardOptions(keyboardType = KeyboardType.Number)
 ) {
-
     TextField(
         value = value,
         onValueChange = {onValueChange(it)},
@@ -41,7 +39,7 @@ fun MyEditText(
             .padding(
                 start = MaterialTheme.spacing.semiLarge,
                 end = MaterialTheme.spacing.semiLarge,
-                top = MaterialTheme.spacing.medium,
+                top = MaterialTheme.spacing.biggerSmall,
                 bottom = MaterialTheme.spacing.semiLarge
             ),
         shape = MaterialTheme.roundedShape.small,
@@ -65,8 +63,7 @@ fun MyEditText(
                 )
             }
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-
+        keyboardOptions = keyboardOptions,
     )
 
 }

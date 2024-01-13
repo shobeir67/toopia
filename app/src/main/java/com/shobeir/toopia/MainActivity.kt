@@ -1,41 +1,33 @@
 package com.shobeir.toopia
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.shobeir.toopia.cheknet.NetworkConnection
+import com.shobeir.toopia.navigation.BottomNavigationBar
+import com.shobeir.toopia.navigation.Screen
 import com.shobeir.toopia.navigation.SetupNavGraph
-import com.shobeir.toopia.ui.screen.components.AnimatedCounter
-import com.shobeir.toopia.ui.screen.home.HomeScreen
 import com.shobeir.toopia.ui.theme.ToopiaTheme
 import com.shobeir.toopia.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import com.pushpole.sdk.PushPole
+import com.shobeir.toopia.ui.screen.profile.AddStore
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
     private val splashViewModel: SplashViewModel by viewModels()
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
+        PushPole.initialize(this,true)
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
             setKeepOnScreenCondition {
@@ -46,19 +38,23 @@ class MainActivity : ComponentActivity() {
             navController = rememberNavController()
             ToopiaTheme {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-//                val networkConnection= NetworkConnection(applicationContext)
-//                    networkConnection.observe(this) { isConnected ->
-//                        if (isConnected) {
-//                            Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
-//
-//                        } else {
-//                            Toast.makeText(this, "Not Connected", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-                SetupNavGraph(navController = navController)
+                    Scaffold(
+                        bottomBar = {
+                            BottomNavigationBar(
+                                navController = navController,
+                                onItemClick ={navController.navigate(it.route){
+                                    popUpTo(Screen.Home.route){
+                                        inclusive=false
+                                    }
+                                }
+                                }
+                            )
+                        }
+                    ){
+                        SetupNavGraph(navController = navController)
+                    }
                }
             }
-
         }
     }
 }

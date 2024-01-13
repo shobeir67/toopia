@@ -3,6 +3,7 @@ package com.shobeir.toopia.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shobeir.toopia.data.model.ModelTeam
+import com.shobeir.toopia.data.model.News
 import com.shobeir.toopia.data.model.Slider
 import com.shobeir.toopia.data.model.User
 import com.shobeir.toopia.data.remote.NetworkResult
@@ -20,11 +21,15 @@ class HomeViewModel@Inject constructor(private val repository: HomeRepository) :
     val teamResponse = MutableStateFlow<NetworkResult<ModelTeam>>(NetworkResult.Loading())
     val winnerResponse = MutableStateFlow<NetworkResult<User>>(NetworkResult.Loading())
     val slider = MutableStateFlow<NetworkResult<List<Slider>>>(NetworkResult.Loading())
+    val news = MutableStateFlow<NetworkResult<List<News>>>(NetworkResult.Loading())
 
     fun getAllData(){
         viewModelScope.launch {
             launch {
                 slider.emit(repository.getSlider())
+            }
+            launch {
+                news.emit(repository.getAllNews())
             }
             launch {
                 teamResponse.emit(repository.getTeam())

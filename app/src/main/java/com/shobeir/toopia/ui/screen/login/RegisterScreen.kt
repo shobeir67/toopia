@@ -25,10 +25,8 @@ import androidx.navigation.NavHostController
 import com.shobeir.toopia.R
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.datastore.StoreViewModel
-import com.shobeir.toopia.navigation.Screen
-import com.shobeir.toopia.ui.theme.md_theme_light_onSecondary
-import com.shobeir.toopia.ui.theme.md_theme_light_outline
-import com.shobeir.toopia.ui.theme.md_theme_light_tertiary
+import com.shobeir.toopia.ui.theme.OrangeYellow1
+import com.shobeir.toopia.ui.theme.md_theme_light_scrim
 import com.shobeir.toopia.ui.theme.roundedShape
 import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
@@ -45,13 +43,13 @@ fun RegisterScreen(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val code = sharedViewModel.user?.code
-    val phone = sharedViewModel.user?.phone
+    val code = sharedViewModel.userReg?.code
+    val phone = sharedViewModel.userReg?.phone
     var textCode by remember {
         mutableStateOf("")
     }
     var timeLeft by remember {
-        mutableIntStateOf(5)
+        mutableIntStateOf(59)
     }
     LaunchedEffect(key1 = Unit) {
         while (timeLeft > 0) {
@@ -63,7 +61,7 @@ fun RegisterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(md_theme_light_tertiary),
+            .background(md_theme_light_scrim),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -119,7 +117,7 @@ fun RegisterScreen(
                             }
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = md_theme_light_onSecondary),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = OrangeYellow1),
                     modifier = Modifier
                         .width(150.dp)
                         .height(50.dp),
@@ -134,7 +132,7 @@ fun RegisterScreen(
                 }
                 Button(
                     onClick = { loginViewModel.screenState = HomeScreenState.LOGIN_STATE},
-                    colors = ButtonDefaults.buttonColors(backgroundColor = md_theme_light_onSecondary),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = OrangeYellow1),
                     modifier = Modifier
                         .width(150.dp)
                         .height(50.dp),

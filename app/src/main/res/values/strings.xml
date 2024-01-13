@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">توپیا</string>
     <string name="home">خانه</string>
+    <string name="pishkhan">پیشخوان</string>
     <string name="code">کد تایید</string>
-
+    <string name="karbordi">کاربردی</string>
+    <string name="gallery">گنجینه</string>
+    <string name="shop">بازارچه</string>
+    <string name="heyat">هیئات مذهبی</string>
+    <string name="kanoon">کانون های فرهنگی هنری</string>
+    <string name="profile">حساب من</string>
     <string name="loginTxt">برای ورود یا ثبت نام در توپیا شماره موبایل خود را وارد نمایید</string>
     <string name="phone_and_email">شماره موبایل </string>
     <string name="digikala_entry">دریافت کد تایید</string>
@@ -15,6 +21,8 @@
     <string name="digikala_login">بزن بریم!</string>
     <string name="password_error">اطلاعات وارد شده صحیح نیست</string>
     <string name="password_format_error">کد وارد شده اشتباه است</string>
+    <string name="rahnema">ابتدا از طریق گزینه افزایش اعتبار مبلغ 50 هزار تومان پرداخت نموده و بعد از پرداخت موفق، در صورتی که موجودی شما تغییر نکرد برروی بروزرسانی موجودی کلیک کنید تا موجودی شما بروز شود.باانتخاب سالن یا زمین چمن می توانید اقدام به ثبت نوبت نمایید. پس از ثبت نوبت، نوبت های ثبت شده خود را در قسمت نوبت های من می توانید مشاهده کنید.</string>
+
 
     <string name="fav_list">لیست مورد علاقه</string>
     <string name="my_comments">نقد و نظرات</string>
