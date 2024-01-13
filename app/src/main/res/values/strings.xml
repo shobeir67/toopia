@@ -4,6 +4,7 @@
     <string name="pishkhan">پیشخوان</string>
     <string name="code">کد تایید</string>
     <string name="karbordi">کاربردی</string>
+    <string name="agahi">آگهی</string>
     <string name="gallery">گنجینه</string>
     <string name="shop">بازارچه</string>
     <string name="heyat">هیئات مذهبی</string>
@@ -74,5 +75,6 @@
     <string name="normal">معمولی</string>
     <string name="good">خوب</string>
     <string name="very_good">عالی</string>
+    <string name="textstorenew">غرفه خود را بسازید و محصولات خود را به دیگران معرفی کنید. جهت ایجاد غرفه خود مبلغ 100 هزار تومان هزینه ماهیانه را پرداخت نموده و محصولات خود راثبت کنید.بزودی امکانی فراهم خواهد شد تا بتوانید محصولات خود را غیر حضوری بفروش برسانید</string>
 
 </resources>

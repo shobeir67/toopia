@@ -19,6 +19,7 @@ import com.shobeir.toopia.ui.theme.ToopiaTheme
 import com.shobeir.toopia.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.pushpole.sdk.PushPole
+import com.shobeir.toopia.ui.screen.home.CityScreen
 import com.shobeir.toopia.ui.screen.profile.AddStore
 
 @AndroidEntryPoint
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ){
-                        SetupNavGraph(navController = navController)
+                       SetupNavGraph(navController = navController)
                     }
                }
             }

@@ -3,6 +3,7 @@ package com.shobeir.toopia.data.datastore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shobeir.toopia.data.datastore.PreferenceHelper.CITY
 import com.shobeir.toopia.data.datastore.PreferenceHelper.MOBILE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,9 +22,9 @@ class StoreViewModel @Inject constructor(
             dataStore.saveString(MOBILE_NAME, phone)
         }
     }
-    fun saveUsername(username: String) {
+    fun saveCity(city: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            dataStore.saveString(MOBILE_NAME, username)
+            dataStore.saveString(CITY, city)
         }
     }
 

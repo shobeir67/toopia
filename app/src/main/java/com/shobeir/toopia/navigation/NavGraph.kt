@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.ui.screen.components.WebPageScreen
+import com.shobeir.toopia.ui.screen.home.CityScreen
 import com.shobeir.toopia.ui.screen.karbordi.toopia.ForecastScreen
 import com.shobeir.toopia.ui.screen.home.HomeScreen
 import com.shobeir.toopia.ui.screen.karbordi.AppScreen
@@ -24,6 +25,7 @@ import com.shobeir.toopia.ui.screen.karbordi.nobateman.modir.PanelScreen
 import com.shobeir.toopia.ui.screen.karbordi.nobateman.salon.SalonScreen
 import com.shobeir.toopia.ui.screen.karbordi.toopia.ToopiaScreen
 import com.shobeir.toopia.ui.screen.profile.AddStore
+import com.shobeir.toopia.ui.screen.profile.StoreScreen
 
 @Composable
 fun SetupNavGraph(
@@ -110,6 +112,9 @@ fun SetupNavGraph(
             AddStore()
         }
 
+        composable(route = Screen.City.route) {
+           CityScreen(sharedViewModel=sharedViewModel)
+        }
 
     }
 }

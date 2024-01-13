@@ -55,10 +55,15 @@ fun HomeScreen(
         mutableStateOf(false)
     }
     var phoneUser by rememberSaveable { mutableStateOf("") }
+    var city by rememberSaveable { mutableStateOf("") }
+
     LaunchedEffect(key1 = Unit) {
         loading = true
         storeViewModel.readString(PreferenceHelper.MOBILE_NAME).collectLatest {
             phoneUser = it
+        }
+        storeViewModel.readString(PreferenceHelper.CITY).collectLatest {
+            city = it
         }
     }
 
@@ -83,6 +88,10 @@ fun HomeScreen(
             }
             HomeScreenState.REGISTER_STATE -> {
                 RegisterScreen(sharedViewModel = sharedViewModel,navController = navController)
+            }
+
+            HomeScreenState.CITY_STATE -> {
+                CityScreen(sharedViewModel=sharedViewModel)
             }
         }
     }

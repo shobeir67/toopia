@@ -45,11 +45,18 @@ fun BottomNavigationBar(
             deSelectedIcon = R.drawable.zanbil
         ),
         BottomNavItem(
-            name = stringResource(id = R.string.karbordi),
+            name = stringResource(id = R.string.agahi),
             route = Screen.Karbordi.route,
+            selectedIcon = R.drawable.advertise,
+            deSelectedIcon = R.drawable.advertise
+        ),
+        BottomNavItem(
+            name = stringResource(id = R.string.karbordi),
+            route = Screen.Agahiha.route,
             selectedIcon = R.drawable.app,
             deSelectedIcon = R.drawable.app
         ),
+
 
         BottomNavItem(
             name = stringResource(id = R.string.profile),

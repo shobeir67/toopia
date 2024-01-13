@@ -92,8 +92,8 @@ fun RegisterScreen(
         MyButton(text = stringResource(id = R.string.digikala_login)) {
             if (textCode == code) {
                 loginViewModel.addUser(phone!!)
-                storeViewModel.savePhone(phone = phone)
-                loginViewModel.screenState = HomeScreenState.HOME_STATE
+                sharedViewModel.addCode(phone)
+                loginViewModel.screenState = HomeScreenState.CITY_STATE
 
             } else {
                 Toast.makeText(

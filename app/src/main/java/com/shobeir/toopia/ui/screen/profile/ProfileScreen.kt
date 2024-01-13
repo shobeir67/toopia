@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -27,14 +28,19 @@ import com.shobeir.toopia.ui.theme.semiDarkText
 import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
 import com.shobeir.toopia.R
+import com.shobeir.toopia.data.datastore.StoreViewModel
 import com.shobeir.toopia.navigation.Screen
+import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen( navController: NavHostController) {
+fun ProfileScreen(
+    navController: NavHostController,
+   storeViewModel: StoreViewModel = hiltViewModel(),
+) {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(md_primaryContainer)) {
-        SettingMenuSection(navController =navController )
+        SettingMenuSection(navController =navController,storeViewModel=storeViewModel )
     }
 
 }
@@ -78,13 +84,23 @@ private fun MyOrdersItem(
 @Composable
 fun SettingMenuSection(
     navController: NavHostController,
+    storeViewModel: StoreViewModel
 ) {
-
+    val scope = rememberCoroutineScope()
+    MenuRowItem(
+        icon = {
+            Image(painter = painterResource(id = R.drawable.shop), contentDescription ="", modifier = Modifier.size(40.dp) )
+        },
+        text = "ایجاد",
+        isHaveDivider = true
+    ) {
+        navController.navigate(Screen.AddStore.route)
+    }
     MenuRowItem(
         icon = {
            Image(painter = painterResource(id = R.drawable.shop), contentDescription ="", modifier = Modifier.size(40.dp) )
         },
-        text = "ایجاد غرفه",
+        text = "غرفه من",
         isHaveDivider = true
     ) {
         navController.navigate(Screen.AddStore.route)
@@ -134,7 +150,10 @@ fun SettingMenuSection(
         text = "خروج از حساب",
         isHaveDivider = false
     ) {
-
+        scope.launch {
+            storeViewModel.clearDataStore()
+            navController.navigate(Screen.Home.route)
+        }
     }
 
 }
