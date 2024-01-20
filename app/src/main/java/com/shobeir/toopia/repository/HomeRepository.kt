@@ -5,7 +5,7 @@ import com.shobeir.toopia.data.model.Data
 import com.shobeir.toopia.data.model.ModelPish
 import com.shobeir.toopia.data.model.ModelTeam
 import com.shobeir.toopia.data.model.News
-import com.shobeir.toopia.data.model.Shoping
+import com.shobeir.toopia.data.model.Store
 import com.shobeir.toopia.data.model.Slider
 import com.shobeir.toopia.data.model.User
 import com.shobeir.toopia.data.remote.BaseApiResponse
@@ -25,7 +25,10 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
         safeApiCall {
             api.getAllNews()
         }
-
+    suspend fun getStoreUser(phone: String,): NetworkResult<Store> =
+        safeApiCall {
+            api.getStoreUser(phone = phone)
+        }
     suspend fun getCity(): NetworkResult<List<City>> =
         safeApiCall {
             api.getCity()
@@ -81,7 +84,7 @@ class HomeRepository @Inject constructor(private val api: HomeApiInterface) : Ba
             api.getTeam()
         }
 
-    suspend fun getAllShoping(): NetworkResult<List<Shoping>> =
+    suspend fun getAllShoping(): NetworkResult<List<Store>> =
         safeApiCall {
             api.getAllShoping()
         }

@@ -25,6 +25,7 @@ import com.shobeir.toopia.ui.screen.karbordi.nobateman.modir.PanelScreen
 import com.shobeir.toopia.ui.screen.karbordi.nobateman.salon.SalonScreen
 import com.shobeir.toopia.ui.screen.karbordi.toopia.ToopiaScreen
 import com.shobeir.toopia.ui.screen.profile.AddStore
+import com.shobeir.toopia.ui.screen.profile.ChengCity
 import com.shobeir.toopia.ui.screen.profile.StoreScreen
 
 @Composable
@@ -45,7 +46,7 @@ fun SetupNavGraph(
         }
 
         composable(route= Screen.Login.route){
-            LoginScreen(sharedViewModel = sharedViewModel)
+            LoginScreen(sharedViewModel = sharedViewModel, navController = navController)
         }
 
         composable(route=Screen.Code.route){
@@ -113,7 +114,17 @@ fun SetupNavGraph(
         }
 
         composable(route = Screen.City.route) {
-           CityScreen(sharedViewModel=sharedViewModel)
+           CityScreen(sharedViewModel=sharedViewModel, navController = navController)
+        }
+        composable(route = Screen.ChangeCity.route) {
+           ChengCity(navController = navController)
+        }
+        composable(route = Screen.Store.route) {
+           StoreScreen(navController=navController,sharedViewModel=sharedViewModel)
+        }
+
+        composable(route = Screen.Register.route) {
+            RegisterScreen(navController=navController,sharedViewModel=sharedViewModel)
         }
 
     }

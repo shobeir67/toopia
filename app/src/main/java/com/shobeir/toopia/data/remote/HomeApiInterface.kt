@@ -9,7 +9,7 @@ import com.shobeir.toopia.data.model.ResponseResult
 import com.shobeir.toopia.data.model.Slider
 import com.shobeir.toopia.data.model.User
 import com.shobeir.toopia.data.model.nobatdehi.ModelZaman
-import com.shobeir.toopia.data.model.Shoping
+import com.shobeir.toopia.data.model.Store
 import com.shobeir.toopia.data.model.nobatdehi.Status
 import com.shobeir.toopia.ui.screen.news.details.ImagePost
 import retrofit2.Response
@@ -26,7 +26,10 @@ interface HomeApiInterface {
     suspend fun getCity() : Response<ResponseResult<List<City>>>
 
     @GET("get-all-shoping.php")
-    suspend fun getAllShoping() : Response<ResponseResult<List<Shoping>>>
+    suspend fun getAllShoping() : Response<ResponseResult<List<Store>>>
+
+    @GET("get-store-user.php")
+    suspend fun getStoreUser(@Query("phone") phone:String) : Response<ResponseResult<Store>>
 
     @GET("get-all-image-news.php")
     suspend fun getAllImageNews(@Query("code") code:String) : Response<ResponseResult<List<ImagePost>>>

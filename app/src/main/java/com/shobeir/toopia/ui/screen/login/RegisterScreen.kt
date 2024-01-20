@@ -25,6 +25,7 @@ import androidx.navigation.NavHostController
 import com.shobeir.toopia.R
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.datastore.StoreViewModel
+import com.shobeir.toopia.navigation.Screen
 import com.shobeir.toopia.ui.theme.OrangeYellow1
 import com.shobeir.toopia.ui.theme.md_theme_light_scrim
 import com.shobeir.toopia.ui.theme.roundedShape
@@ -93,7 +94,11 @@ fun RegisterScreen(
             if (textCode == code) {
                 loginViewModel.addUser(phone!!)
                 sharedViewModel.addCode(phone)
-                loginViewModel.screenState = HomeScreenState.CITY_STATE
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Register.route) {
+                        inclusive = true
+                    }
+                }
 
             } else {
                 Toast.makeText(
@@ -131,7 +136,7 @@ fun RegisterScreen(
                     )
                 }
                 Button(
-                    onClick = { loginViewModel.screenState = HomeScreenState.LOGIN_STATE},
+                    onClick = { navController.popBackStack() },
                     colors = ButtonDefaults.buttonColors(backgroundColor = OrangeYellow1),
                     modifier = Modifier
                         .width(150.dp)

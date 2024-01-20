@@ -5,7 +5,7 @@
     <string name="code">کد تایید</string>
     <string name="karbordi">کاربردی</string>
     <string name="agahi">آگهی</string>
-    <string name="gallery">گنجینه</string>
+    <string name="gallery">نگارخانه</string>
     <string name="shop">بازارچه</string>
     <string name="heyat">هیئات مذهبی</string>
     <string name="kanoon">کانون های فرهنگی هنری</string>
@@ -23,13 +23,10 @@
     <string name="password_error">اطلاعات وارد شده صحیح نیست</string>
     <string name="password_format_error">کد وارد شده اشتباه است</string>
     <string name="rahnema">ابتدا از طریق گزینه افزایش اعتبار مبلغ 50 هزار تومان پرداخت نموده و بعد از پرداخت موفق، در صورتی که موجودی شما تغییر نکرد برروی بروزرسانی موجودی کلیک کنید تا موجودی شما بروز شود.باانتخاب سالن یا زمین چمن می توانید اقدام به ثبت نوبت نمایید. پس از ثبت نوبت، نوبت های ثبت شده خود را در قسمت نوبت های من می توانید مشاهده کنید.</string>
-
-
     <string name="fav_list">لیست مورد علاقه</string>
     <string name="my_comments">نقد و نظرات</string>
     <string name="addresses">آدرس‌ها</string>
     <string name="profile_data">اطلاعات حساب کاربری</string>
-
     <string name="login_or_register">ورود یا ثبت نام</string>
     <string name="login_or_register_msg">برای تجربه بهتر خرید و بررسی روش ارسال کالاها لطفا وارد شوید.</string>
     <string name="address_and_time">آدرس و زمان ارسال</string>

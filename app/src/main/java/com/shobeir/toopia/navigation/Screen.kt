@@ -19,6 +19,9 @@ sealed class Screen(val route: String) {
     object AddStore : Screen("addStore_Screen")
     object Agahiha : Screen("agahi_Screen")
     object City : Screen("city_Screen")
+    object ChangeCity : Screen("changeCity_Screen")
+    object Store : Screen("store_Screen")
+    object Register : Screen("register_Screen")
 
     fun withArgs(vararg args: Any): String {
         return buildString {

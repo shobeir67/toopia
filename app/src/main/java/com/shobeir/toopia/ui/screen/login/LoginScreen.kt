@@ -17,9 +17,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.shobeir.toopia.R
 import com.shobeir.toopia.SharedViewModel
 import com.shobeir.toopia.data.model.UserRegister
+import com.shobeir.toopia.navigation.Screen
 import com.shobeir.toopia.ui.theme.md_theme_light_scrim
 import com.shobeir.toopia.ui.theme.shabnam
 import com.shobeir.toopia.ui.theme.spacing
@@ -30,7 +32,8 @@ import kotlin.random.Random
 
 @Composable
 fun LoginScreen(
-    loginViewModel: LoginViewModel = hiltViewModel(),sharedViewModel: SharedViewModel
+    loginViewModel: LoginViewModel = hiltViewModel(),sharedViewModel: SharedViewModel,
+    navController:NavHostController
 ) {
     val context = LocalContext.current
     loginViewModel.codeState = random().toString()
@@ -80,7 +83,7 @@ fun LoginScreen(
                     ) {
                         loginViewModel.sendSms()
                         sharedViewModel.addUserReg(UserRegister(phone = loginViewModel.inputPhoneState, code = loginViewModel.codeState))
-                        loginViewModel.screenState = HomeScreenState.REGISTER_STATE
+                        navController.navigate(Screen.Register.route)
                     } else {
                         Toast.makeText(
                             context,
@@ -110,8 +113,8 @@ fun LoginScreen(
 }
 
 fun random(): Int {
-    val min = 10000
-    val max = 99999
+    val min = 1000
+    val max = 9999
     val r = Random
     return r.nextInt(max - min + 1) + min
 }

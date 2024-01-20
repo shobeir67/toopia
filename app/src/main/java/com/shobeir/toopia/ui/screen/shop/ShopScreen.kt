@@ -28,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.shobeir.toopia.ui.theme.roundedShape
 import com.shobeir.toopia.ui.theme.spacing
-import com.shobeir.toopia.data.model.Shoping
+import com.shobeir.toopia.data.model.Store
 import com.shobeir.toopia.data.remote.NetworkResult
 import com.shobeir.toopia.ui.theme.shabnam
 import kotlinx.coroutines.flow.collectLatest
@@ -37,8 +37,8 @@ import kotlinx.coroutines.flow.collectLatest
 fun ShopScreen(
     viewModel: ShopViewModel = hiltViewModel()
 ) {
-    var shopingList by remember {
-        mutableStateOf<List<Shoping>>(emptyList())
+    var storeList by remember {
+        mutableStateOf<List<Store>>(emptyList())
     }
     val scope = rememberCoroutineScope()
     var error by remember {
@@ -46,10 +46,10 @@ fun ShopScreen(
     }
     LaunchedEffect(key1 = true) {
         viewModel.getAllData()
-        viewModel.shoping.collectLatest { shopingResult ->
+        viewModel.store.collectLatest { shopingResult ->
             when (shopingResult) {
                 is NetworkResult.Success -> {
-                    shopingList = shopingResult.data ?: emptyList()
+                    storeList = shopingResult.data ?: emptyList()
                     error = false
                 }
 
@@ -67,7 +67,7 @@ fun ShopScreen(
         }
     }
     LazyVerticalStaggeredGrid(columns = StaggeredGridCells.Fixed(2)) {
-        items(shopingList) {
+        items(storeList) {
             CardCustom(it)
         }
     }
@@ -75,7 +75,7 @@ fun ShopScreen(
 }
 
 @Composable
-fun CardCustom(shoping: Shoping) {
+fun CardCustom(store: Store) {
     Card(
         modifier = Modifier
             .width(170.dp)
@@ -92,12 +92,12 @@ fun CardCustom(shoping: Shoping) {
                 .padding(vertical = MaterialTheme.spacing.extraSmall)
         ) {
             AsyncImage(
-                model = shoping.image, contentDescription = "",
+                model = store.image, contentDescription = "",
                 modifier = Modifier.fillMaxWidth()
             )
 
             Text(
-                text = shoping.title,
+                text = store.title,
                 modifier = Modifier
                     .padding(start = MaterialTheme.spacing.small),
                 fontFamily = shabnam,

@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.shobeir.toopia.data.model.ModelTeam
 import com.shobeir.toopia.data.model.News
+import com.shobeir.toopia.data.model.Store
 import com.shobeir.toopia.data.model.User
 import com.shobeir.toopia.data.model.UserRegister
 
@@ -18,6 +19,13 @@ class SharedViewModel :ViewModel(){
 
     fun addUserReg(newUser:UserRegister){
         userReg = newUser
+    }
+
+    var store by  mutableStateOf<Store?>(null)
+        private set
+
+    fun addStore(newStore:Store){
+        store = newStore
     }
 
     var user by  mutableStateOf<User?>(null)

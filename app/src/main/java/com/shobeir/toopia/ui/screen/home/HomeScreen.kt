@@ -34,6 +34,7 @@ import ir.shobeir.avayekaryan.model.Image
 import com.shobeir.toopia.data.model.News
 import com.shobeir.toopia.data.model.Slider
 import com.shobeir.toopia.data.remote.NetworkResult
+import com.shobeir.toopia.navigation.Screen
 import com.shobeir.toopia.ui.screen.components.TopSliderSection
 import com.shobeir.toopia.ui.screen.news.NewsItem
 import com.shobeir.toopia.ui.screen.news.NewsScreen
@@ -55,15 +56,11 @@ fun HomeScreen(
         mutableStateOf(false)
     }
     var phoneUser by rememberSaveable { mutableStateOf("") }
-    var city by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
         loading = true
         storeViewModel.readString(PreferenceHelper.MOBILE_NAME).collectLatest {
             phoneUser = it
-        }
-        storeViewModel.readString(PreferenceHelper.CITY).collectLatest {
-            city = it
         }
     }
 
@@ -71,29 +68,32 @@ fun HomeScreen(
         Home(
             navController = navController,
             sharedViewModel = sharedViewModel,
-            viewModel = viewModel
+            viewModel = viewModel,
+            storeViewModel = storeViewModel
         )
     } else {
-        when (loginViewModel.screenState) {
-            HomeScreenState.LOGIN_STATE -> {
-                LoginScreen(sharedViewModel = sharedViewModel)
-            }
-            HomeScreenState.HOME_STATE -> {
-                Home(
-                    navController = navController,
-                    sharedViewModel = sharedViewModel,
-                    viewModel = viewModel
-
-                )
-            }
-            HomeScreenState.REGISTER_STATE -> {
-                RegisterScreen(sharedViewModel = sharedViewModel,navController = navController)
-            }
-
-            HomeScreenState.CITY_STATE -> {
-                CityScreen(sharedViewModel=sharedViewModel)
-            }
-        }
+        navController.navigate(Screen.Login.route)
+//        when (loginViewModel.screenState) {
+//            HomeScreenState.LOGIN_STATE -> {
+//
+//            }
+//            HomeScreenState.HOME_STATE -> {
+//                Home(
+//                    navController = navController,
+//                    sharedViewModel = sharedViewModel,
+//                    viewModel = viewModel,
+//                    storeViewModel = storeViewModel
+//
+//                )
+//            }
+//            HomeScreenState.REGISTER_STATE -> {
+//                RegisterScreen(sharedViewModel = sharedViewModel,navController = navController)
+//            }
+//
+//            HomeScreenState.CITY_STATE -> {
+//                CityScreen(sharedViewModel=sharedViewModel, navController = navController)
+//            }
+//        }
     }
 }
 
@@ -102,14 +102,16 @@ fun HomeScreen(
 fun Home(
     navController: NavHostController,
     sharedViewModel: SharedViewModel,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    storeViewModel: StoreViewModel
 ) {
     LaunchedEffect(key1 = true){
         viewModel.getAllData()
     }
    NewsScreen(navController = navController,
        sharedViewModel = sharedViewModel,
-       viewModel = viewModel
+       viewModel = viewModel,
+       storeViewModel = storeViewModel
    )
 }
 
